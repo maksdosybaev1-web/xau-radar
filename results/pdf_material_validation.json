@@ -1,0 +1,20 @@
+{
+  "material_pages": 11,
+  "all_page_texts_present": true,
+  "all_page_renders_present": true,
+  "sha256_matches_manifest": true,
+  "active_rules_changed": [],
+  "missing_links": [],
+  "example_risk_price": "10.68",
+  "example_reward_price": "28.19",
+  "example_rr": "2.639513108614232209737827715",
+  "ui": {
+    "visible": true,
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "card_horizontal_overflow": false,
+    "page_errors": [],
+    "server_restarted": false
+  },
+  "catalog_count": 5
+}

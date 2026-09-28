@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-09-26T19:26:03.916209+00:00",
+  "project_root": "C:\\Users\\user\\Desktop\\трейдер",
+  "python_tests": 33,
+  "market_ui": {
+    "passed": true,
+    "checked_at": "2026-09-26T19:24:26.486Z",
+    "checks": [
+      "M5/M15/H1",
+      "EMA20/50/200",
+      "RSI/MACD/ATR",
+      "7 частей оценки",
+      "Калькулятор риска",
+      "Приватность токена",
+      "Защита локальных настроек",
+      "MT5 bid/ask",
+      "Разогрев H1",
+      "Устаревшие котировки",
+      "Мобильная вёрстка",
+      "Отчёт"
+    ],
+    "live_bars": {
+      "M5": 600,
+      "M15": 600,
+      "H1": 600
+    },
+    "errors": []
+  },
+  "legacy_ui": {
+    "passed": true,
+    "checked_at": "2026-09-26T19:19:31.404Z",
+    "project_root": "C:\\Users\\user\\Desktop\\трейдер",
+    "checks": [
+      "Архив и события",
+      "ИИ-пояснение подтверждения",
+      "Ручная зона",
+      "Правила и экспорт",
+      "Текущий режим MT5",
+      "Устаревшая котировка",
+      "Нет подключения",
+      "Мобильная вёрстка"
+    ],
+    "live_ready": true,
+    "live_rows": 10000,
+    "browser": "Chromium",
+    "desktop": "1440x1050",
+    "mobile": "390x844",
+    "errors": []
+  },
+  "links_checked": 16,
+  "broken_links": [],
+  "health": {
+    "ok": true,
+    "history_ready": true,
+    "ai": {
+      "configured": true,
+      "model": "qwen2.5:7b",
+      "mode": "advisory_only",
+      "message": "Модель подключена для объяснений"
+    }
+  },
+  "live_ready": true,
+  "live_frames": {
+    "M5": {
+      "bars": 600,
+      "indicators_ready": true
+    },
+    "M15": {
+      "bars": 600,
+      "indicators_ready": true
+    },
+    "H1": {
+      "bars": 600,
+      "indicators_ready": true
+    }
+  },
+  "quote_stale": true,
+  "telegram_configured": false,
+  "telegram_enabled": false,
+  "error_log_bytes": {
+    "bridge-error.log": 0,
+    "server-error.log": 0
+  },
+  "dependencies": {
+    "MetaTrader5": "5.0.6180",
+    "numpy": "2.5.3"
+  }
+}

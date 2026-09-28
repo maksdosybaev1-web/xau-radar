@@ -1,0 +1,7 @@
+{
+  "server": "MetaQuotes-Demo",
+  "symbol": "XAUUSD",
+  "offset_seconds": 10800,
+  "verified_at": 1790577924,
+  "basis": "Live advancing ticks compared with system UTC and external HTTPS Date; explicit source setting, not age-based inference"
+}

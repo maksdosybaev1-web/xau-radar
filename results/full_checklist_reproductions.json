@@ -1,0 +1,10 @@
+{
+  "fvg_two_zone_key_collision": true,
+  "fvg_rows_after_index_failure_same_process": 2,
+  "SBRForward_foreign_source_replayed": 1,
+  "SBRForward_rows_after_write_failure_next_step": 0,
+  "SBRForward_buffer_after_next_step": 0,
+  "RBSForward_foreign_source_replayed": 1,
+  "RBSForward_rows_after_write_failure_next_step": 0,
+  "RBSForward_buffer_after_next_step": 0
+}

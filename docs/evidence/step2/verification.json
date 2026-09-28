@@ -1,0 +1,8 @@
+{
+  "frames": 7,
+  "fragments": 3,
+  "valid_links": 11,
+  "unchanged_runtime_files": 16,
+  "detector_implemented": false,
+  "verification": "asset hashes, links, runtime file hashes"
+}

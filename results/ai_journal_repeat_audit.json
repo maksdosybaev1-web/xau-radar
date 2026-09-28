@@ -1,0 +1,16 @@
+{
+  "tests_passed": 118,
+  "source_hash_matches": true,
+  "saved_model_status": "not_run",
+  "paired_closed_recounted": 0,
+  "fallback_after_changed_facts": [
+    "В режиме касания главная причина отсева — фильтр спреда (1); открытие за уровнем встречалось 99 раз.",
+    "После закрытия чаще всего не было подтверждения первого возврата (1371); фильтр спреда отклонил 190 кандидатов.",
+    "Попарно закрытых опытов нет; новые рыночные исходы ещё не накоплены. Преимущество режима и пользу ИИ-фильтра оценить нельзя."
+  ],
+  "unchecked_summary_values": {
+    "wins": 999,
+    "paired_closed": 999
+  },
+  "malformed_response_exception": "AttributeError"
+}

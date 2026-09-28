@@ -1,0 +1,35 @@
+[
+  {
+    "video": 1,
+    "duration": 2193.83,
+    "segments": 76,
+    "first": 5.62,
+    "last": 2181.84,
+    "reprocessed_segments": 17,
+    "still_flagged_segments": 0,
+    "quality_note": "Автоматическая расшифровка; числа не измеряют точность распознавания.",
+    "complete": true
+  },
+  {
+    "video": 2,
+    "duration": 1367.2,
+    "segments": 46,
+    "first": 0.0,
+    "last": 1365.07,
+    "reprocessed_segments": 6,
+    "still_flagged_segments": 0,
+    "quality_note": "Автоматическая расшифровка; числа не измеряют точность распознавания.",
+    "complete": true
+  },
+  {
+    "video": 3,
+    "duration": 2371.99,
+    "segments": 78,
+    "first": 1.3,
+    "last": 2360.24,
+    "reprocessed_segments": 30,
+    "still_flagged_segments": 0,
+    "quality_note": "Автоматическая расшифровка; числа не измеряют точность распознавания.",
+    "complete": true
+  }
+]

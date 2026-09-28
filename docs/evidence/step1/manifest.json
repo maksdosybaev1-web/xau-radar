@@ -1,0 +1,127 @@
+{
+  "purpose": "Сопоставление примеров с кодом; не проверка исполнения сделок",
+  "implementation_sha256": {
+    "app/engine.py": "85108a059dfb859ce0eccbef9946d0a3e7240535b2247f4a6bc3effc12d30ff0",
+    "config.json": "e0b213d1d4daf680e9855a5684b32423ef1448819e8e354eec2be13a84aec9e4",
+    "docs/SPEC.md": "9b8085e4870931aaa8d312a247102ba6ec62bc1f9e96f2ac7cf65320e4fb9e19"
+  },
+  "cases": [
+    {
+      "id": "A",
+      "video": 3,
+      "start": 233,
+      "end": 550,
+      "frames": [
+        330,
+        390,
+        450,
+        510
+      ],
+      "title": "Сужение зоны и пример покупки",
+      "video_file": "WhatsApp Video 2026-09-26 at 13.43.47.mp4",
+      "video_sha256": "0f31a1f6754488f1578a6cd12544eb52262fca7945db6441ee85f3b8a10082a6",
+      "transcript_file": "docs/transcripts/transcript_3_refined.jsonl",
+      "excerpt": "case_A_transcript.json",
+      "images": [
+        {
+          "seconds": 330,
+          "file": "case_A_0330.jpg",
+          "sha256": "f4d5e72d7bb543a2fe557a88c1cd25658e495c75c7e760e15113b0562939ddf6"
+        },
+        {
+          "seconds": 390,
+          "file": "case_A_0390.jpg",
+          "sha256": "db8bf39612745bf1e146778775e5d1d00f8f8134c7ed28cf57fc037e75f66b94"
+        },
+        {
+          "seconds": 450,
+          "file": "case_A_0450.jpg",
+          "sha256": "b8f6dba4ea5dbdb80aaa577ff37e60a4b8ca93095113197b0c80ad9c2a864d1f"
+        },
+        {
+          "seconds": 510,
+          "file": "case_A_0510.jpg",
+          "sha256": "1408c7aa52676d1807566847f44eb7088468a8c7a6f60b3d14a5d7a9681029e9"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "video": 3,
+      "start": 1785,
+      "end": 2070,
+      "frames": [
+        1845,
+        1905,
+        1965,
+        2025
+      ],
+      "title": "Пример после перехода к часовой зоне, продажа",
+      "video_file": "WhatsApp Video 2026-09-26 at 13.43.47.mp4",
+      "video_sha256": "0f31a1f6754488f1578a6cd12544eb52262fca7945db6441ee85f3b8a10082a6",
+      "transcript_file": "docs/transcripts/transcript_3_refined.jsonl",
+      "excerpt": "case_B_transcript.json",
+      "images": [
+        {
+          "seconds": 1845,
+          "file": "case_B_1845.jpg",
+          "sha256": "aae07a0f78ea82a65710dca88c899a62465eaa87dcfffaf6442593d6383d6bee"
+        },
+        {
+          "seconds": 1905,
+          "file": "case_B_1905.jpg",
+          "sha256": "a5b6e0aa1649eda874211405f2a5e77f54e6bc8595d1cb2211131941d785deed"
+        },
+        {
+          "seconds": 1965,
+          "file": "case_B_1965.jpg",
+          "sha256": "fda9f20c753c40cdb80ffa1e0034eb23e56b1c39f519bbaeb0bc902c6048614d"
+        },
+        {
+          "seconds": 2025,
+          "file": "case_B_2025.jpg",
+          "sha256": "bb53babdf639fa69121210820ee81a85beeaed2f85651d57f0831f25df313648"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "video": 1,
+      "start": 1075,
+      "end": 1360,
+      "frames": [
+        1095,
+        1155,
+        1275,
+        1335
+      ],
+      "title": "Старший контекст и локальный пример продажи",
+      "video_file": "WhatsApp Video 2026-09-26 at 13.43.46.mp4",
+      "video_sha256": "979e42d06d3af3bc0fa817b9f0b4c3392d767417ab147008c127ce6161d10781",
+      "transcript_file": "docs/transcripts/transcript_1_refined.jsonl",
+      "excerpt": "case_C_transcript.json",
+      "images": [
+        {
+          "seconds": 1095,
+          "file": "case_C_1095.jpg",
+          "sha256": "43b996845c7dea50632ec977176dcf5281a78cffc703b53a891d4f984e634072"
+        },
+        {
+          "seconds": 1155,
+          "file": "case_C_1155.jpg",
+          "sha256": "92708e7b824006c2469835be01c0fe5d5896225bf50c39b7a45383c0decb91cb"
+        },
+        {
+          "seconds": 1275,
+          "file": "case_C_1275.jpg",
+          "sha256": "8d5bc8d027b48814ca3618ab9dd44a7c17a9b364bfd32238c173201c4981ae72"
+        },
+        {
+          "seconds": 1335,
+          "file": "case_C_1335.jpg",
+          "sha256": "eddca5cedb1c90d0e65ef815b232bd9261584df88f851e6501ae85eab754c80a"
+        }
+      ]
+    }
+  ]
+}

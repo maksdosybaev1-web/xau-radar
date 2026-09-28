@@ -1,0 +1,434 @@
+{
+  "summaries": {
+    "run": {
+      "version": null,
+      "summary": {
+        "closed": 2,
+        "wins": 1,
+        "losses": 1,
+        "net_pnl": -14.427815714286195,
+        "win_rate": 0.5,
+        "win_rate_wilson95": [
+          0.09452865480086614,
+          0.9054713451991339
+        ],
+        "average_pnl": -7.213907857143098,
+        "average_r": -0.28836444042066667,
+        "profit_factor": 0.4225578994643352,
+        "max_closed_drawdown": 0.0024959383796549096,
+        "max_marked_drawdown": 0.004785956338028113,
+        "stop_fraction": 0.5,
+        "ambiguous_bars": 0,
+        "trades_with_data_gap": 0
+      }
+    },
+    "holdout": {
+      "version": null,
+      "summary": {
+        "closed": 0,
+        "wins": 0,
+        "losses": 0,
+        "net_pnl": 0,
+        "win_rate": null,
+        "win_rate_wilson95": null,
+        "average_pnl": null,
+        "average_r": null,
+        "profit_factor": null,
+        "max_closed_drawdown": 0,
+        "max_marked_drawdown": 0,
+        "stop_fraction": null,
+        "ambiguous_bars": 0,
+        "trades_with_data_gap": 0
+      }
+    },
+    "snr_sbr_run": {
+      "version": "snr-sbr-close-0.2-research",
+      "summary": {
+        "levels": 2346,
+        "states": {
+          "context_rejected": 1262,
+          "expired": 744,
+          "incomplete": 107,
+          "retest_unconfirmed": 95,
+          "invalidated": 86,
+          "entry_rejected": 46,
+          "closed": 6
+        },
+        "closed": 6,
+        "average_r": -0.8536257779074926,
+        "net_pnl_independent_usd": -128.0438666861239,
+        "wins": 0,
+        "incomplete_trades": 0
+      }
+    },
+    "snr_rbs_run": {
+      "version": "snr-rbs-close-0.1-research",
+      "summary": {
+        "levels": 2374,
+        "states": {
+          "context_rejected": 1172,
+          "expired": 678,
+          "incomplete": 149,
+          "retest_unconfirmed": 153,
+          "invalidated": 132,
+          "entry_rejected": 82,
+          "closed": 8
+        },
+        "closed": 8,
+        "average_r": -0.9263713015409816,
+        "net_pnl_independent_usd": -185.27426030819632,
+        "wins": 0,
+        "incomplete_trades": 0
+      }
+    },
+    "snr_classic_run": {
+      "version": "snr-classic-av-observation-2",
+      "summary": {
+        "levels": 4720,
+        "states": {
+          "context_rejected": 2724,
+          "expired": 919,
+          "incomplete": 194,
+          "invalidated": 64,
+          "touch_observed": 819
+        },
+        "touches_by_model": {
+          "A": 341,
+          "V": 478
+        },
+        "paper_trades": 0
+      }
+    },
+    "snr_qml_run": {
+      "version": "snr-qml-two-break-observation-1",
+      "summary": {
+        "levels": 4720,
+        "states": {
+          "return_2": 1459,
+          "expired": 2702,
+          "incomplete": 559
+        },
+        "contacts": {
+          "QML_BUY": {
+            "first": 952,
+            "second": 627
+          },
+          "QML_SELL": {
+            "first": 1044,
+            "second": 832
+          }
+        },
+        "paper_trades": 0
+      }
+    },
+    "snr_ocl_run": {
+      "version": "snr-ocl-parent-seam-observation-1",
+      "summary": {
+        "parent_breaks": 743,
+        "states": {
+          "seam_outside_parent_band": 323,
+          "candidate": 215,
+          "body_direction_mismatch": 205
+        },
+        "candidates_by_model": {
+          "OCL_SELL": 74,
+          "OCL_BUY": 141
+        },
+        "paper_trades": 0
+      }
+    },
+    "structure_liquidity_run": {
+      "version": "h1-structure-extrema-observation-1",
+      "summary": {
+        "extrema": 327,
+        "extremum_states": {
+          "unknown_after_gap": 195,
+          "price_revisited": 132
+        },
+        "event_types": {
+          "extremum_known": 327,
+          "extremum_unknown": 195,
+          "extremum_revisited": 132,
+          "trend_known": 42,
+          "choch_observed": 11,
+          "bos_confirmed": 5,
+          "sequence_incomplete": 6
+        },
+        "paper_trades": 0
+      }
+    },
+    "nested_m15_m5_m1_run": {
+      "version": "nested-m15-m5-m1-observation-1",
+      "summary": {
+        "chains": 2009,
+        "states": {
+          "touch_observed": 1575,
+          "previously_touched": 141,
+          "expired": 225,
+          "incomplete": 68
+        },
+        "event_types": {
+          "zone_known": 20659,
+          "chain_known": 2009,
+          "touch_observed": 1575,
+          "chain_expired": 225,
+          "chain_incomplete": 68
+        },
+        "paper_trades": 0
+      }
+    },
+    "entry_modes_run": {
+      "version": "nested-first-return-entry-modes-1",
+      "summary": {
+        "first_returns": 1575,
+        "touch_limit": {
+          "resting_limit_crossing": 1529,
+          "limit_crossed_at_open": 46
+        },
+        "after_close": {
+          "first_return_not_confirmed": 1371,
+          "next_open_candidate": 203,
+          "missing_next_m1": 1
+        },
+        "paper_trades": 0
+      }
+    },
+    "entry_modes_outcomes_run": {
+      "version": "nested-entry-outcomes-1",
+      "summary": {
+        "by_mode": {
+          "touch_limit": {
+            "total": 1575,
+            "states": {
+              "rejected": 1528,
+              "not_eligible": 46,
+              "closed": 1
+            },
+            "closed": 1,
+            "wins": 1,
+            "average_r": 1.8974367814110633,
+            "stop_exits": 0,
+            "target_exits": 1,
+            "timeout_exits": 0
+          },
+          "after_close": {
+            "total": 1575,
+            "states": {
+              "not_eligible": 1372,
+              "rejected": 190,
+              "closed": 13
+            },
+            "closed": 13,
+            "wins": 3,
+            "average_r": -0.36481202382071914,
+            "stop_exits": 10,
+            "target_exits": 2,
+            "timeout_exits": 1
+          }
+        },
+        "paired_closed": 0,
+        "paired_average_r_difference_after_close_minus_limit": null,
+        "closed_by_month": {
+          "touch_limit": {
+            "2025-09": {
+              "total": 1,
+              "states": {
+                "closed": 1
+              },
+              "closed": 1,
+              "wins": 1,
+              "average_r": 1.8974367814110633,
+              "stop_exits": 0,
+              "target_exits": 1,
+              "timeout_exits": 0
+            }
+          },
+          "after_close": {
+            "2025-07": {
+              "total": 1,
+              "states": {
+                "closed": 1
+              },
+              "closed": 1,
+              "wins": 0,
+              "average_r": -1.000000000000065,
+              "stop_exits": 1,
+              "target_exits": 0,
+              "timeout_exits": 0
+            },
+            "2025-08": {
+              "total": 3,
+              "states": {
+                "closed": 3
+              },
+              "closed": 3,
+              "wins": 0,
+              "average_r": -1.0000000000000777,
+              "stop_exits": 3,
+              "target_exits": 0,
+              "timeout_exits": 0
+            },
+            "2025-09": {
+              "total": 9,
+              "states": {
+                "closed": 9
+              },
+              "closed": 9,
+              "wins": 3,
+              "average_r": -0.08250625662989448,
+              "stop_exits": 6,
+              "target_exits": 2,
+              "timeout_exits": 1
+            }
+          }
+        },
+        "portfolio_simulated": false
+      }
+    }
+  },
+  "journals": {
+    "forward_events.jsonl": 0,
+    "nested_forward_events.jsonl": 0,
+    "nested_forward_outcomes.jsonl": 0,
+    "nested_forward_tick_checks.jsonl": 0,
+    "snr_rbs_forward_events.jsonl": 0,
+    "snr_sbr_forward_events.jsonl": 0
+  },
+  "databases": {
+    "quotes.sqlite3": {
+      "quotes": 0
+    },
+    "ticks.sqlite3": {
+      "ticks": 0,
+      "tick_pulls": 0
+    },
+    "alerts.sqlite3": {
+      "alerts": 0
+    }
+  },
+  "broken_links": [],
+  "forward": {
+    "status": "waiting_for_fresh_quote",
+    "forward_since": 1790503533,
+    "last_m1": 1790377080,
+    "quote_time": 1790377199,
+    "quote_fresh": false,
+    "new_m1": 0,
+    "events": {},
+    "timely_near": 0,
+    "timely_confirmed": 0,
+    "paper_closed": 0,
+    "paper_open": 0,
+    "paper_data_gap": 0,
+    "net_pnl": null,
+    "average_r": null,
+    "note": "Условные исходы по MT5 M1 с оценённым ask; это не исполнение брокера и не доказательство преимущества."
+  },
+  "telegram_enabled": false,
+  "checkpoint_engine_matches": true,
+  "checkpoint_lists": {
+    "events": 15,
+    "trades": 0,
+    "curve": 0,
+    "zones": 7,
+    "children": 5,
+    "chart": 240
+  },
+  "quote_utc": "2026-09-25T22:59:59+00:00",
+  "research_hashes": {
+    "snr_sbr": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "snr_rbs": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "snr_classic": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "snr_qml": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "snr_ocl": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "structure_liquidity": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "nested_m15_m5_m1": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "entry_modes": {
+      "source_matches": true,
+      "spec_matches": true
+    },
+    "entry_modes_outcomes": {
+      "source_matches": true,
+      "spec_matches": true
+    }
+  },
+  "recounts": {
+    "run": true,
+    "holdout": true,
+    "snr_sbr_run": true,
+    "snr_rbs_run": true
+  },
+  "ai_recount": {
+    "research_version": "nested-entry-outcomes-1",
+    "source_hash": "f9eb091f9cf82a9803fcc04f0bf67eba68ebe114050eed203f8d4c71676def49",
+    "paired_closed": 0,
+    "modes": {
+      "touch_limit": {
+        "total": 1575,
+        "states": {
+          "rejected": 1528,
+          "not_eligible": 46,
+          "closed": 1
+        },
+        "reasons": {
+          "spread_guard": 1528,
+          "limit_crossed_at_open": 46
+        },
+        "wins": 1,
+        "average_r": 1.8974367814110633
+      },
+      "after_close": {
+        "total": 1575,
+        "states": {
+          "not_eligible": 1372,
+          "rejected": 190,
+          "closed": 13
+        },
+        "reasons": {
+          "first_return_not_confirmed": 1371,
+          "spread_guard": 190,
+          "missing_next_m1": 1
+        },
+        "wins": 3,
+        "average_r": -0.3648120238207191
+      }
+    },
+    "forward": {
+      "forward_since": 1790500829,
+      "quote_time": 1790377199,
+      "stale": true,
+      "events": 0,
+      "paper_outcomes": 0,
+      "tick_checks": 0
+    },
+    "boundary": "Исторические независимые условные опыты; без кривой портфеля, брокерского исполнения и новых результатов."
+  },
+  "csv": {
+    "rows": 89119,
+    "duplicate_times": 0,
+    "nonincreasing": 0,
+    "gaps_gt_60": 70,
+    "missing_fields": 0
+  }
+}

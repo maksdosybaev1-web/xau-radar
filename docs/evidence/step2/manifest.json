@@ -1,0 +1,88 @@
+{
+  "scope": "Формализация SBR; без внедрения в радар",
+  "cases": [
+    {
+      "id": "definition",
+      "video": 2,
+      "source": "WhatsApp Video 2026-09-26 at 13.43.47 (1).mp4",
+      "sha256": "4e8c9e199d1b05f94c3410abecb88f624b79c537dd6fed699adf3f42e37083ca",
+      "start": 279,
+      "end": 369,
+      "images": [
+        {
+          "seconds": 315,
+          "file": "definition_0315.jpg",
+          "sha256": "0e10c8de86d20c647a3f96aa947e021639876e57a419cce163a68ff02eb396c1"
+        },
+        {
+          "seconds": 350,
+          "file": "definition_0350.jpg",
+          "sha256": "17cb231f156c713dcfdc0f9440c8a85ab61c7d7005663803aaa47ac5440fc4a5"
+        },
+        {
+          "seconds": 365,
+          "file": "definition_0365.jpg",
+          "sha256": "de516577b3b7d21f1e55cb8d724306ee3e85c6033c7f6a263f0ecf8098f28487"
+        }
+      ]
+    },
+    {
+      "id": "example",
+      "video": 3,
+      "source": "WhatsApp Video 2026-09-26 at 13.43.47.mp4",
+      "sha256": "0f31a1f6754488f1578a6cd12544eb52262fca7945db6441ee85f3b8a10082a6",
+      "start": 1155,
+      "end": 1485,
+      "images": [
+        {
+          "seconds": 1200,
+          "file": "example_1200.jpg",
+          "sha256": "4587e9c8d0dda0388a46003cb5716a54b79c4b8a1c2b49369079e59547cca8ac"
+        },
+        {
+          "seconds": 1260,
+          "file": "example_1260.jpg",
+          "sha256": "910c8d67ee6a622f07a5b4249938fc2a44687f09eada677efd4ee1f82c293e7f"
+        },
+        {
+          "seconds": 1380,
+          "file": "example_1380.jpg",
+          "sha256": "d8bc08dce571d5275410626424a6bf650b44ff4775878dd52759316cdff7896e"
+        }
+      ]
+    },
+    {
+      "id": "exception",
+      "video": 3,
+      "source": "WhatsApp Video 2026-09-26 at 13.43.47.mp4",
+      "sha256": "0f31a1f6754488f1578a6cd12544eb52262fca7945db6441ee85f3b8a10082a6",
+      "start": 1755,
+      "end": 1785,
+      "images": [
+        {
+          "seconds": 1770,
+          "file": "exception_1770.jpg",
+          "sha256": "2202771d425549eb4d7dee3773743894e0ba520287fe6af0c5289fa72067daac"
+        }
+      ]
+    }
+  ],
+  "unchanged_files": {
+    "app/__init__.py": "c11fb3ccfbcc2a952504372cc7064e65d010759a1587daf2ebd7284bb8c0d8e7",
+    "app/ai_review.py": "212cf98da47763daf85b389b1fe1a1924082a3456e38c6055a1c836f0581820e",
+    "app/datafeed.py": "436f71aa5b2d99d6ac1a33e16580e9dde03c1b9dc3f0f5eb0fd1f60936e7c2f8",
+    "app/engine.py": "85108a059dfb859ce0eccbef9946d0a3e7240535b2247f4a6bc3effc12d30ff0",
+    "app/indicators.py": "e00a3336bc6640c37da9807b0142b405da2e36feae6ed079ed65817db9a9386c",
+    "app/live_market.py": "9316fdbf315eecdf9c3dbc5079148c7c2856986b3decd37ae2f2b76b77ac7fa0",
+    "app/market_radar.py": "b3c98e8e6d71f6582aefa76c2c9a9264c0fb857d51b66a87bcebdd465b930474",
+    "app/mt5_bridge.py": "23a84b3f98207789dd6062a2191202f2125b93d9e65d0f96221108310c457991",
+    "app/notifications.py": "1bfd24fe73de02e662008d5b0f1b107c81ee1f1854a1834c97c0b973fadc34c5",
+    "app/operations.py": "518568ce2922df08c52861ff0e8eb50010f224dc650dacf903e76e9c5545c8a3",
+    "app/quote_archive.py": "7432372f3aa62e96833046c1ed28d4331af30087ab0979dca60e7c3b46ffdc6c",
+    "app/research.py": "480d14215cc2a0a687ae12ccb0c737632b14b3331fb657857af990afe496d474",
+    "app/server.py": "364e2e39d5efd907511493217c21d766c8b818cbbf6d91e4343786543fe3e77b",
+    "app/technical_research.py": "760da48d3697a1100ca8db06d2e28604da75de8d13907ec781eef34460078693",
+    "config.json": "e0b213d1d4daf680e9855a5684b32423ef1448819e8e354eec2be13a84aec9e4",
+    "radar_config.json": "5c2a6688942087d7b93154a1be40c04c0551f7a0d47d59b5b8656209794b1942"
+  }
+}

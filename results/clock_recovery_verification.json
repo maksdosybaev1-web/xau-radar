@@ -1,0 +1,116 @@
+{
+  "at": 1790578058,
+  "first": {
+    "at": 1790577964,
+    "forward_since": 1790577951,
+    "last_m1": 1790577840,
+    "rows": 10000
+  },
+  "last_m1": 1790577960,
+  "rows": 10002,
+  "checkpoint_restored": true,
+  "same_forward_since": true,
+  "clock_offset_seconds": 10800,
+  "health": {
+    "bridge": {
+      "alive": true,
+      "state": "running",
+      "label": "Работает",
+      "updated_at": 1790578057,
+      "error_type": null,
+      "error_code": null
+    },
+    "quote": {
+      "fresh": true,
+      "time": 1790578057,
+      "age_seconds": 1,
+      "label": "Свежая"
+    },
+    "telegram": {
+      "enabled": true,
+      "configured": true,
+      "worker_alive": true,
+      "label": "Очередь работает"
+    },
+    "ready_for_new_alerts": true,
+    "as_of": 1790578058,
+    "window_hours": 24,
+    "journal": {
+      "total": 18,
+      "first_event": 1790557500,
+      "last_event": 1790578029,
+      "last_24h": {
+        "failed": 16,
+        "sent": 1,
+        "suppressed": 1
+      },
+      "unresolved": {}
+    },
+    "quote_archive": {
+      "total": 10,
+      "first_time_msc": 1790577950977,
+      "last_time_msc": 1790578057202,
+      "last_received_at": 1790578057,
+      "last_24h": 10,
+      "intervals_over_90s": 0,
+      "max_interval_seconds": 18.093,
+      "source": "MT5 · выборочные bid/ask",
+      "complete_tick_feed": false
+    },
+    "tick_archive": {
+      "total": 390,
+      "first_time_msc": 1790577952026,
+      "last_time_msc": 1790578057202,
+      "last_24h": 390,
+      "pulls": 9,
+      "non_ok_pulls": 0,
+      "last_pull": {
+        "status": "ok",
+        "observed_at": 1790578057,
+        "start_sec": 1790578039,
+        "end_sec": 1790578058,
+        "returned": 81
+      },
+      "source": "MT5 copy_ticks_range · bid/ask",
+      "complete_tick_feed": false
+    },
+    "fvg_forward": {
+      "status": "collecting",
+      "forward_since": 1790577951,
+      "last_m1": 1790577960,
+      "quote_time": 1790578057,
+      "quote_fresh": true,
+      "new_m1": 2,
+      "events": {},
+      "timely_near": 0,
+      "timely_confirmed": 0,
+      "paper_closed": 0,
+      "paper_open": 0,
+      "paper_data_gap": 0,
+      "net_pnl": null,
+      "average_r": null,
+      "note": "Условные исходы по MT5 M1 с оценённым ask; это не исполнение брокера и не доказательство преимущества."
+    }
+  },
+  "delivery_counts": [
+    [
+      "failed",
+      16
+    ],
+    [
+      "sent",
+      1
+    ],
+    [
+      "suppressed",
+      1
+    ]
+  ],
+  "telegram_diagnostic": {
+    "getMe": true,
+    "getChat": true,
+    "silent_message_id": 8,
+    "old_uncertain_replayed": false
+  },
+  "tests_passed": 204
+}

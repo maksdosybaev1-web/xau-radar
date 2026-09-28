@@ -1,0 +1,72 @@
+{
+  "bridge": {
+    "alive": true,
+    "state": "running",
+    "label": "Работает",
+    "updated_at": 1790536071,
+    "error_type": null,
+    "error_code": null
+  },
+  "quote": {
+    "fresh": false,
+    "time": 1790377199,
+    "age_seconds": 158878,
+    "label": "Устарела"
+  },
+  "telegram": {
+    "enabled": true,
+    "configured": true,
+    "worker_alive": true,
+    "label": "Очередь работает"
+  },
+  "ready_for_new_alerts": false,
+  "as_of": 1790536077,
+  "window_hours": 24,
+  "journal": {
+    "total": 0,
+    "first_event": null,
+    "last_event": null,
+    "last_24h": {},
+    "unresolved": {}
+  },
+  "quote_archive": {
+    "total": 0,
+    "first_time_msc": null,
+    "last_time_msc": null,
+    "last_received_at": null,
+    "last_24h": 0,
+    "intervals_over_90s": 0,
+    "max_interval_seconds": null,
+    "source": "MT5 · выборочные bid/ask",
+    "complete_tick_feed": false
+  },
+  "tick_archive": {
+    "total": 0,
+    "first_time_msc": null,
+    "last_time_msc": null,
+    "last_24h": 0,
+    "pulls": 0,
+    "non_ok_pulls": 0,
+    "last_pull": null,
+    "source": "MT5 copy_ticks_range · bid/ask",
+    "complete_tick_feed": false
+  },
+  "fvg_forward": {
+    "status": "waiting_for_fresh_quote",
+    "forward_since": 1790503533,
+    "last_m1": 1790377080,
+    "quote_time": 1790377199,
+    "quote_fresh": false,
+    "new_m1": 0,
+    "events": {},
+    "timely_near": 0,
+    "timely_confirmed": 0,
+    "paper_closed": 0,
+    "paper_open": 0,
+    "paper_data_gap": 0,
+    "net_pnl": null,
+    "average_r": null,
+    "note": "Условные исходы по MT5 M1 с оценённым ask; это не исполнение брокера и не доказательство преимущества."
+  },
+  "server_http_status": 200
+}

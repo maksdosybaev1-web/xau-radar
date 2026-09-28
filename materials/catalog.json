@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "materials": [
+    {
+      "id": "pdf-general-topic-2026-09-28",
+      "title": "Общая тема",
+      "path": "materials/obshchaya_tema_2026-09-28.pdf",
+      "type": "pdf",
+      "sha256": "e88f086fe5d7c8499540f88543023138806b0f42391f87baab238fdfd79d1702",
+      "bytes": 193822,
+      "review": "docs/PDF_GENERAL_TOPIC_REVIEW.md",
+      "source_role": "secondary_summary",
+      "pages": 11,
+      "added_on": "2026-09-28",
+      "rules_status": "draft_not_active",
+      "rules_draft": "docs/PDF_SMC_RULES_DRAFT.md",
+      "evidence_manifest": "docs/evidence/general_topic_pdf/manifest.json"
+    },
+    {
+      "id": "WhatsApp Image 2026-09-26 at 13.43.46",
+      "title": "WhatsApp Image 2026-09-26 at 13.43.46",
+      "path": "materials/WhatsApp Image 2026-09-26 at 13.43.46.jpeg",
+      "type": "jpeg",
+      "sha256": "c82a45071519cda18e1ec8e3dedd5317e51f4cde6e7e9637e501a0c9aa0cd659",
+      "bytes": 114327,
+      "review": "docs/review.md",
+      "source_role": "original_material"
+    },
+    {
+      "id": "WhatsApp Video 2026-09-26 at 13.43.46",
+      "title": "WhatsApp Video 2026-09-26 at 13.43.46",
+      "path": "materials/WhatsApp Video 2026-09-26 at 13.43.46.mp4",
+      "type": "mp4",
+      "sha256": "979e42d06d3af3bc0fa817b9f0b4c3392d767417ab147008c127ce6161d10781",
+      "bytes": 138896898,
+      "review": "docs/review.md",
+      "source_role": "original_material"
+    },
+    {
+      "id": "WhatsApp Video 2026-09-26 at 13.43.47 (1)",
+      "title": "WhatsApp Video 2026-09-26 at 13.43.47 (1)",
+      "path": "materials/WhatsApp Video 2026-09-26 at 13.43.47 (1).mp4",
+      "type": "mp4",
+      "sha256": "4e8c9e199d1b05f94c3410abecb88f624b79c537dd6fed699adf3f42e37083ca",
+      "bytes": 127197576,
+      "review": "docs/review.md",
+      "source_role": "original_material"
+    },
+    {
+      "id": "WhatsApp Video 2026-09-26 at 13.43.47",
+      "title": "WhatsApp Video 2026-09-26 at 13.43.47",
+      "path": "materials/WhatsApp Video 2026-09-26 at 13.43.47.mp4",
+      "type": "mp4",
+      "sha256": "0f31a1f6754488f1578a6cd12544eb52262fca7945db6441ee85f3b8a10082a6",
+      "bytes": 108879745,
+      "review": "docs/review.md",
+      "source_role": "original_material"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "restored": true,
+  "forward_since_preserved": true,
+  "checkpoint_unchanged_without_new_bars": true,
+  "open_positions_on_live_demo": 0,
+  "historical_pending_and_open_position_replay": "passed",
+  "tests": 129
+}

@@ -1,0 +1,14 @@
+{
+  "sha256": "20fedfc37b33857c08c637fcd05983e4ed95923f66c2278d986e762dd453fc02",
+  "verified": true,
+  "counts": {
+    "events": 15,
+    "trades": 0,
+    "curve": 0,
+    "zones": 7,
+    "children": 5,
+    "chart": 240
+  },
+  "checkpoint_unchanged": true,
+  "restored_equals_source": true
+}

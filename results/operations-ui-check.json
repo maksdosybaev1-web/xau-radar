@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checked_at": "2026-09-27T03:01:36.691Z",
+  "bridge_alive": true,
+  "quote_fresh": false,
+  "delivery_alive": true,
+  "configured": true,
+  "alerts": 0,
+  "exports": true
+}

@@ -1,0 +1,10 @@
+runtime/
+**/__pycache__/
+devtools/node_modules/
+.env
+*.local.json
+*.sqlite3
+*.keys.sqlite3
+*.pid
+*.log
+materials/*.mp4

@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-09-28T11:07:24.863550+05:00",
+  "page_count": 11,
+  "sha256_matches": true,
+  "pages_match_extraction": true,
+  "page_files_match": true,
+  "cards": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "missing_links": [],
+  "catalog_pdf_entries": 1,
+  "ui_block_exists": true,
+  "original_pdf_matches_copy": true,
+  "order_block": {
+    "version": "ob-h1-observation-1",
+    "summary": {
+      "zones": 11,
+      "states": {
+        "unknown_after_gap": 7,
+        "first_touch": 4
+      },
+      "event_types": {
+        "ob_known": 11,
+        "ob_unknown": 7,
+        "ob_first_touch": 4
+      },
+      "paper_trades": 0
+    },
+    "spec_hash_matches": true,
+    "source_hash_matches": true
+  },
+  "live_ui": {
+    "http_status": 200,
+    "material_block_present": true
+  }
+}

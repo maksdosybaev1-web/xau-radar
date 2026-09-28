@@ -1,0 +1,18 @@
+{
+  "version": "xau-watch-1.0",
+  "timeframes": {"M5": 5, "M15": 15, "H1": 60},
+  "ema_periods": [20, 50, 200],
+  "rsi_period": 14,
+  "atr_period": 14,
+  "level_lookback": 120,
+  "near_atr": 0.25,
+  "volume_ratio": 1.5,
+  "volatility_high": 1.5,
+  "volatility_low": 0.75,
+  "watch_score": 70,
+  "stop_atr": 1.5,
+  "reward_risk": 2.0,
+  "alert_cooldown_seconds": 1800,
+  "max_quote_age_seconds": 90,
+  "poll_seconds": 10
+}

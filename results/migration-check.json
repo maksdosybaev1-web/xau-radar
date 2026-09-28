@@ -1,0 +1,97 @@
+{
+  "checked_at": "2026-09-26T18:59:26.095206+00:00",
+  "project_root": "C:\\Users\\user\\Desktop\\трейдер",
+  "links": [
+    {
+      "document": "README.md",
+      "target": "docs/SPEC.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "target": "docs/PLAN_AUDIT.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "target": "results/validation.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "target": "docs/review.md",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "transcripts/transcript_1.md",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "transcripts/transcript_2.md",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "transcripts/transcript_3.md",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "visual_map.md",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "transcripts/transcript_status.json",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "frames/v2/0018.jpg",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "frames/v3/0022.jpg",
+      "exists": true
+    },
+    {
+      "document": "docs\\review.md",
+      "target": "frames/v3/0067.jpg",
+      "exists": true
+    },
+    {
+      "document": "docs\\SPEC.md",
+      "target": "review.md",
+      "exists": true
+    }
+  ],
+  "broken_links": [],
+  "old_path_references": [],
+  "modules": {
+    "datafeed": "app\\datafeed.py",
+    "research": "app\\research.py",
+    "engine": "app\\engine.py",
+    "server": "app\\server.py",
+    "mt5_bridge": "app\\mt5_bridge.py",
+    "ai_review": "app\\ai_review.py"
+  },
+  "health": {
+    "ok": true,
+    "history_ready": true,
+    "ai": {
+      "configured": true,
+      "model": "qwen2.5:7b",
+      "mode": "advisory_only",
+      "message": "Модель подключена для объяснений"
+    }
+  },
+  "live": {
+    "ready": true,
+    "rows": 10000,
+    "stale": true
+  },
+  "passed": true
+}

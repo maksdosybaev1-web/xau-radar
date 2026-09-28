@@ -1,0 +1,13 @@
+{
+  "outbox_failure": {
+    "journal_records": 1,
+    "queued_after_retry": 1,
+    "seen": 1
+  },
+  "classic_expiry": {
+    "deadline": 899700,
+    "touch_known_at": 899820,
+    "actual_state": "expired",
+    "seconds_after_deadline": 120
+  }
+}

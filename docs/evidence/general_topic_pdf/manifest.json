@@ -1,0 +1,75 @@
+{
+  "material": "materials/obshchaya_tema_2026-09-28.pdf",
+  "sha256": "e88f086fe5d7c8499540f88543023138806b0f42391f87baab238fdfd79d1702",
+  "page_count": 11,
+  "metadata": {
+    "format": "PDF 1.4",
+    "title": "Общая тема",
+    "author": "",
+    "subject": "",
+    "keywords": "",
+    "creator": "",
+    "producer": "Skia/PDF m156 Google Docs Renderer",
+    "creationDate": "",
+    "modDate": "",
+    "trapped": "",
+    "encryption": null
+  },
+  "pages": [
+    {
+      "page": 1,
+      "characters": 2588,
+      "images": 0
+    },
+    {
+      "page": 2,
+      "characters": 2867,
+      "images": 0
+    },
+    {
+      "page": 3,
+      "characters": 2561,
+      "images": 0
+    },
+    {
+      "page": 4,
+      "characters": 2624,
+      "images": 0
+    },
+    {
+      "page": 5,
+      "characters": 2544,
+      "images": 0
+    },
+    {
+      "page": 6,
+      "characters": 2573,
+      "images": 0
+    },
+    {
+      "page": 7,
+      "characters": 2933,
+      "images": 0
+    },
+    {
+      "page": 8,
+      "characters": 2817,
+      "images": 0
+    },
+    {
+      "page": 9,
+      "characters": 2353,
+      "images": 0
+    },
+    {
+      "page": 10,
+      "characters": 2838,
+      "images": 0
+    },
+    {
+      "page": 11,
+      "characters": 565,
+      "images": 0
+    }
+  ]
+}
