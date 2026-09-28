@@ -16,6 +16,44 @@ class OperationTests(unittest.TestCase):
         s=summarize_health({'updated_at':1000,'state':'running','quote_time':1000},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
         self.assertTrue(s['ready_for_new_alerts'])
 
+    # --- New: overall status tests ---
+    def test_overall_green_when_all_healthy(self):
+        s=summarize_health({'updated_at':1000,'state':'running','quote_time':1000},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
+        self.assertEqual(s['overall']['label'],'Работает')
+        self.assertEqual(s['overall']['color'],'green')
+
+    def test_overall_yellow_when_quote_stale(self):
+        s=summarize_health({'updated_at':1000,'state':'running','quote_time':500},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
+        self.assertEqual(s['overall']['label'],'Котировка устарела')
+        self.assertEqual(s['overall']['color'],'yellow')
+
+    def test_overall_yellow_when_retrying(self):
+        s=summarize_health({'updated_at':1000,'state':'retrying'},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
+        self.assertEqual(s['overall']['label'],'Переподключается к MT5')
+        self.assertEqual(s['overall']['color'],'yellow')
+
+    def test_overall_yellow_when_starting(self):
+        s=summarize_health({'updated_at':1000,'state':'starting'},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
+        self.assertEqual(s['overall']['label'],'Мост запускается')
+        self.assertEqual(s['overall']['color'],'yellow')
+
+    def test_overall_red_when_bridge_dead(self):
+        s=summarize_health({'updated_at':800,'state':'running','quote_time':800},{'updated_at':1000,'state':'running'},{'enabled':True,'configured':True},1001)
+        self.assertEqual(s['overall']['label'],'Нет свежего статуса')
+        self.assertEqual(s['overall']['color'],'red')
+
+    def test_overall_red_when_no_heartbeat(self):
+        s=summarize_health({},{},{'enabled':False},1001)
+        self.assertEqual(s['overall']['color'],'red')
+
+    def test_bridge_age_seconds_present(self):
+        s=summarize_health({'updated_at':990,'state':'running','quote_time':990},{'updated_at':990,'state':'running'},{'enabled':True,'configured':True},1000)
+        self.assertEqual(s['bridge']['age_seconds'],10)
+
+    def test_bridge_age_seconds_none_when_no_heartbeat(self):
+        s=summarize_health({},{},{'enabled':False},1000)
+        self.assertIsNone(s['bridge']['age_seconds'])
+
     def test_queue_network_does_not_lock_journal_or_allow_double_send(self):
         with tempfile.TemporaryDirectory() as temp:
             store=AlertStore(pathlib.Path(temp)/'alerts.db')

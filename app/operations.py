@@ -29,14 +29,29 @@ def summarize_health(bridge,delivery,telegram,now):
     delivery_alive=0<=now-delivery.get('updated_at',0)<=60
     quote_time=bridge.get('quote_time');age=now-quote_time if quote_time else None
     quote_fresh=age is not None and 0<=age<=90
+    bridge_age=now-bridge.get('updated_at',0) if bridge.get('updated_at') else None
     bridge_label='Работает' if bridge_alive and bridge.get('state')=='running' else 'Переподключается' if bridge_alive and bridge.get('state')=='retrying' else 'Запускается' if bridge_alive and bridge.get('state')=='starting' else 'Нет свежего статуса'
     telegram_label='Выключен' if not telegram.get('enabled') else 'Нет настроек' if not telegram.get('configured') else 'Ошибка очереди' if delivery_alive and delivery.get('state')=='error' else 'Очередь работает' if delivery_alive else 'Очередь не отвечает'
+    # Computed overall status: single verdict for the whole system
+    if bridge_alive and bridge.get('state')=='running' and quote_fresh:
+        overall_label='Работает';overall_color='green'
+    elif bridge_alive and bridge.get('state')=='retrying':
+        overall_label='Переподключается к MT5';overall_color='yellow'
+    elif bridge_alive and bridge.get('state')=='starting':
+        overall_label='Мост запускается';overall_color='yellow'
+    elif bridge_alive and not quote_fresh:
+        overall_label='Котировка устарела';overall_color='yellow'
+    else:
+        overall_label='Нет свежего статуса';overall_color='red'
+    ready=bridge_alive and bridge.get('state')=='running' and quote_fresh and delivery_alive and delivery.get('state')=='running' and telegram.get('enabled',False) and telegram.get('configured',False)
     return {'bridge':{'alive':bridge_alive,'state':bridge.get('state','unknown'),'label':bridge_label,
-                      'updated_at':bridge.get('updated_at'),'error_type':bridge.get('error_type'),
+                      'updated_at':bridge.get('updated_at'),'age_seconds':bridge_age,
+                      'error_type':bridge.get('error_type'),
                       'error_code':bridge.get('error_code')},
             'quote':{'fresh':quote_fresh,'time':quote_time,'age_seconds':age,'label':'Свежая' if quote_fresh else 'Устарела' if quote_time else 'Нет котировки'},
             'telegram':{'enabled':telegram.get('enabled',False),'configured':telegram.get('configured',False),'worker_alive':delivery_alive,'label':telegram_label},
-            'ready_for_new_alerts':bridge_alive and bridge.get('state')=='running' and quote_fresh and delivery_alive and delivery.get('state')=='running' and telegram.get('enabled',False) and telegram.get('configured',False)}
+            'overall':{'label':overall_label,'color':overall_color},
+            'ready_for_new_alerts':ready}
 
 def status(store=None,now=None):
     from .notifications import AlertStore,public_settings
@@ -73,6 +88,7 @@ def report_text(s):
     archive=s.get('quote_archive',{})
     ticks=s.get('tick_archive',{})
     return '\n'.join(['# Наблюдение за работой радара','',f'Снимок: {stamp}.',
+        f'Общий статус: {s["overall"]["label"]}.',
         f'Мост MT5: {s["bridge"]["label"]}. Котировка: {s["quote"]["label"]}. Telegram: {s["telegram"]["label"]}.','',
         f'Всего записанных событий: {s["journal"]["total"]}. За последние 24 часа: {sum(counts.values())}.',
         f'Подтверждённых доставок рыночных событий за 24 часа: {counts.get("sent",0)}. Ошибок: {counts.get("failed",0)}. Подавленных повторов: {counts.get("suppressed",0)}.',
