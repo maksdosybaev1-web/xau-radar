@@ -1,8 +1,9 @@
 /* Market overview is separate from the historical nested-FVG simulation. */
-const marketUI={tf:'M15',source:'history',cursor:null,data:null,request:0,lastEvents:null};
+const marketUI={tf:'M15',source:'history',cursor:null,data:null,request:0,lastEvents:null,showAllEvents:false};
 const m$=s=>document.querySelector(s);
 const mfmt=(n,d=2)=>n==null?'—':Number(n).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d});
 const mesc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eventReason=e=>String(e.reason||'').startsWith(String(e.label||'')+' ')?String(e.reason).slice(String(e.label).length+1):e.reason;
 const mdate=t=>new Date(t*1000).toLocaleString('ru-RU',{timeZone:'UTC',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})+' UTC';
 const trendName={buy:'↑ Восходящий',sell:'↓ Нисходящий',neutral:'Боковой / смешанный'};
 const planKey=e=>e.level_id?'level:'+e.level_id:e.zone_id?'zone:'+e.zone_id:null;
@@ -72,7 +73,12 @@ function renderMarket(s){const v=s.frames[marketUI.tf];renderBeginnerPlan(s);m$(
  m$('#tfTable').innerHTML='<table><thead><tr><th>Период</th><th>Тренд</th><th>RSI</th><th>ATR</th><th>Условия</th></tr></thead><tbody>'+Object.entries(s.frames).map(([tf,x])=>`<tr><td>${tf}</td><td>${x?trendName[x.trend]:'—'}</td><td>${mfmt(x?.rsi,1)}</td><td>${mfmt(x?.atr)}</td><td>${x?.score==null?'Разогрев':x.score+'/100'}</td></tr>`).join('')+'</tbody></table>';
  drawTechnical(s.chart,v);renderPlan();
  const delivery={sent:'Telegram: доставлено',pending:'Telegram: очередь',failed:'Telegram: ошибка',sending:'Доставка не подтверждена',local_only:'Локальная лента',expired:'Доставка устарела',suppressed:'Повтор ограничен'};
- m$('#technicalEvents').innerHTML=s.events.length?s.events.map(e=>`<article class="tech-event"><time>${mdate(e.time)} · ${mesc(e.tf)}</time><strong>${mesc(e.type==='watch'?'Совпали индикаторные условия':e.label)}</strong><p>${mesc(e.reason)}</p><small>${mesc(delivery[e.delivery]||'Историческое событие')}${e.delivery_detail?' · '+mesc(e.delivery_detail):''}</small></article>`).join(''):'<p class="empty">Новых событий пока нет. Стартовая история MT5 не выдаётся за новые сигналы.</p>';
+ const repeats=s.events.filter(e=>e.delivery==='suppressed').length;
+ const visible=marketUI.showAllEvents?s.events:s.events.filter(e=>e.delivery!=='suppressed').slice(0,20);
+ m$('#technicalEventSummary').textContent=`Показано ${visible.length} из ${s.events.length}; повторов скрыто ${marketUI.showAllEvents?0:repeats}. Полный журнал доступен в CSV.`;
+ const toggle=m$('#technicalEventsToggle');toggle.hidden=s.events.length<=20&&repeats===0;
+ toggle.textContent=marketUI.showAllEvents?'Свернуть список':'Показать все события';
+ m$('#technicalEvents').innerHTML=visible.length?visible.map(e=>`<article class="tech-event"><time>${mdate(e.time)} · ${mesc(e.tf)}</time><strong>${mesc(e.type==='watch'?'Совпали индикаторные условия':e.label)}</strong><p>${mesc(eventReason(e))}</p><small>${mesc(delivery[e.delivery]||'Историческое событие')}${e.delivery_detail?' · '+mesc(e.delivery_detail):''}</small></article>`).join(''):'<p class="empty">Новых событий пока нет. Стартовая история MT5 не выдаётся за новые сигналы.</p>';
  if(marketUI.source==='live'&&!s.stale&&marketUI.lastEvents&&m$('#techNotify').checked&&window.Notification?.permission==='granted'){
   for(const e of s.events.filter(e=>!marketUI.lastEvents.has(e.id)&&e.delivery!=='suppressed'))new Notification('XAU/USD · '+(e.type==='watch'?'Совпали индикаторные условия':e.label),{silent:true,body:e.tf+' · '+e.reason});
  }
@@ -97,9 +103,10 @@ function drawTechnical(b,v){const svg=m$('#techChart');if(!b.length){svg.innerHT
  svg.innerHTML=out.join('');svg.onmousemove=e=>{const r=svg.getBoundingClientRect(),i=Math.max(0,Math.min(b.length-1,Math.floor(((e.clientX-r.left)/r.width*1000-12)/dx)));const c=b[i];m$('#techTooltip').textContent=mdate(c.time)+` · O ${mfmt(c.open)} H ${mfmt(c.high)} L ${mfmt(c.low)} C ${mfmt(c.close)}`};svg.onmouseleave=()=>m$('#techTooltip').textContent='Наведите курсор на свечу';
 }
 m$('#techTf').onchange=e=>{marketUI.tf=e.target.value;loadMarket()};m$('#calcEquity').oninput=renderPlan;m$('#calcRisk').oninput=renderPlan;
+m$('#technicalEventsToggle').onclick=()=>{marketUI.showAllEvents=!marketUI.showAllEvents;if(marketUI.data?.ready)renderMarket(marketUI.data)};
 m$('#techNotify').onchange=async e=>{if(e.target.checked&&'Notification' in window)e.target.checked=await Notification.requestPermission()==='granted';else e.target.checked=false};
 async function telegramState(){const s=await(await fetch('/api/telegram')).json();m$('#telegramEnabled').checked=s.enabled;m$('#telegramChat').value=s.chat_id||'';m$('#telegramToken').placeholder=s.configured?'Токен сохранён; оставьте пустым для сохранения':'Токен от BotFather';m$('#telegramStatus').textContent=s.message;m$('#telegramTest').disabled=!s.configured}
 m$('#telegramForm').onsubmit=async e=>{e.preventDefault();const button=m$('#telegramSave');button.disabled=true;try{const r=await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:m$('#telegramToken').value,chat_id:m$('#telegramChat').value,enabled:m$('#telegramEnabled').checked})});const s=await r.json();if(!r.ok)throw Error(s.error);m$('#telegramToken').value='';await telegramState()}catch(err){m$('#telegramStatus').textContent=err.message}finally{button.disabled=false}};
-m$('#telegramTest').onclick=async()=>{m$('#telegramTest').disabled=true;m$('#telegramStatus').textContent='Отправляется тестовое сообщение…';try{const r=await fetch('/api/telegram-test',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const s=await r.json();m$('#telegramStatus').textContent=s.message||s.error}catch(e){m$('#telegramStatus').textContent=e.message}finally{m$('#telegramTest').disabled=false}};
+m$('#telegramTest').onclick=async()=>{m$('#telegramTest').disabled=true;m$('#telegramStatus').textContent='Отправляется тестовое сообщение…';try{const r=await fetch('/api/telegram-test',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const s=await r.json();if(!r.ok)throw Error(s.error||'Telegram не ответил');m$('#telegramStatus').textContent=`${s.message}. ID ${s.message_id??'неизвестен'}; проверьте чат на телефоне.`}catch(e){m$('#telegramStatus').textContent=e.message}finally{m$('#telegramTest').disabled=false}};
 telegramState().catch(e=>m$('#telegramStatus').textContent=e.message);
 fetch('/api/technical-validation').then(r=>r.json()).then(s=>{m$('#technicalValidation').textContent=s.summary_text||'Историческая проверка нового обзора ещё не подготовлена.'}).catch(()=>{});

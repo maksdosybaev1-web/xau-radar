@@ -131,6 +131,13 @@ class AlertTests(unittest.TestCase):
             self.assertEqual(body['chat_id'],'12345');self.assertEqual(body['text'],'test')
             self.assertTrue(body['disable_notification'])
 
+    def test_telegram_response_without_message_id_is_not_confirmed(self):
+        config={'token':'12345:'+'x'*30,'chat_id':'12345'}
+        with patch('app.notifications.urllib.request.build_opener') as opener:
+            opener.return_value.open.return_value=io.BytesIO(b'{"ok":true,"result":{}}')
+            with self.assertRaisesRegex(DeliveryError,'без ID сообщения'):
+                send_telegram('test',config)
+
     def test_early_plan_is_not_sent_silently(self):
         event=dict(id='plan',time=1000,tf='M5',type='sbr_sell_plan',symbol='XAUUSD',
                    analysis_plan={'side':'short','entry':[100,102],'stop':103,

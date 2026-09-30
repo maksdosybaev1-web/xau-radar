@@ -52,6 +52,31 @@ class TradePlanFormatTests(unittest.TestCase):
         self.assertIn('Сценарий: FVG-zone-42',text)
         self.assertIn('Почему: M5 закрылась над зоной',text)
 
+    def test_scenario_messages_keep_model_reason_and_next_check(self):
+        plan={'side':'short','entry':[4275,4277],'stop':4284,
+              'targets':[4267,4257,4248],'cancel_rule':'закрытие M5 выше 4277',
+              'target_method':'midpoint_r_1_2_3'}
+        events=[
+            {'type':'sbr_sell_plan','level_id':'level-42'},
+            {'type':'rbs_buy_plan','level_id':'level-42',
+             'analysis_plan':dict(plan,side='long',entry=[4279,4281],stop=4272,
+                                  targets=[4289,4296,4306],cancel_rule='закрытие M5 ниже 4279')},
+            {'type':'fvg_near','zone_id':'zone-42','direction':'sell'},
+            {'type':'sbr_sell_confirmed','level_id':'level-42','price':4276},
+            {'type':'rbs_buy_confirmed','level_id':'level-42','price':4280,
+             'analysis_plan':dict(plan,side='long',entry=[4279,4281],stop=4272,
+                                  targets=[4289,4296,4306],cancel_rule='закрытие M5 ниже 4279')},
+        ]
+        for event in events:
+            with self.subTest(event=event['type']):
+                event.setdefault('analysis_plan',plan)
+                event.update(symbol='XAUUSD',time=100,reason='Причина от модели для '+event['type'])
+                message=format_alert(event)
+                self.assertIn('Почему: '+event['reason'],message)
+                self.assertIn('Следующая проверка:',message)
+                self.assertIn('Сценарий:',message)
+        self.assertIn('Цели 1R/2R/3R',format_alert(events[2]))
+
     def test_preliminary_plan_explains_action_without_promising_safe_entry(self):
         plan={'side':'long','entry':[4279,4281],'stop':4272,
               'targets':[4289,4296,4306],'cancel_rule':'закрытие M5 ниже 4279'}

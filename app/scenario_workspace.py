@@ -8,6 +8,7 @@ import time
 
 from .datafeed import ROOT
 from .notifications import AlertStore
+from .operations import read_status, summarize_health, m1_is_recent
 from .scenario_lifecycle import (VERSION as LIFECYCLE_VERSION, FVG_PLAN_SECONDS,
                                  SNR_RETEST_SECONDS, CONFIRMED_SECONDS)
 
@@ -22,6 +23,53 @@ def _identity(event):
     source = event.get('source_hash') or event.get('source')
     return (model, source, key) if key else None
 
+def beginner_guidance(row):
+    """Explain the existing scenario checks; never invent a new trading signal."""
+    c=row['checks'];buy=row['plan']['side']=='long';side='покупки' if buy else 'продажи'
+    button='BUY' if buy else 'SELL';trade=row.get('trade');decision=row.get('decision') or {}
+    if not c['data_ready']:
+        return {'title':'Пауза: сначала восстановите данные','tone':'paused',
+                'steps':[c['data_reason'],'Откройте MT5 и проверьте подключение и открытые позиции.']}
+    if trade:
+        if trade.get('exit_time'):
+            return {'title':'Сделка записана: разберите результат','tone':'review',
+                    'steps':['Сравните фактический вход с зоной сценария.',
+                             'Проверьте, включены ли комиссия и прочие расходы в записанный итог.',
+                             'Разберите причину результата в журнале перед следующим решением.']}
+        return {'title':'Сопровождайте фактическую сделку в MT5','tone':'manage',
+                'steps':['Проверьте реальный стоп, объём и цели в терминале.',
+                         'Отмена сценария не закрывает вашу позицию: оцените её отдельно.',
+                         'После фактического закрытия запишите цену выхода и итог брокера в форме ниже.']}
+    if decision.get('action')=='skip':
+        return {'title':'Вы пропустили этот сценарий','tone':'review',
+                'steps':['Сохранённое решение не открывает сделку.','Следите за новым сценарием; этот разберите в журнале.']}
+    if row['stage'] in ('ended','expired'):
+        return {'title':'Этот план завершён: используйте его для разбора','tone':'review',
+                'steps':[row['stage_reason'],'Уровни этого плана больше не действуют. Дождитесь нового сценария.']}
+    if row['stage'] in ('waiting','near'):
+        return {'title':f'Готовим разбор {side}: подтверждения ещё нет','tone':'waiting',
+                'steps':['Возьмите сценарий в работу, если хотите следить за ним.',
+                         'Дождитесь первого ретеста и подтверждения на закрытой M5.' if row['stage']=='waiting'
+                         else 'Цена у зоны: дождитесь подтверждения на закрытой M5.',
+                         'До подтверждения не считайте ранний план готовностью к входу.']}
+    if not c['in_zone']:
+        return {'title':f'Подтверждение есть: ждём цену для разбора {side}','tone':'waiting',
+                'steps':['Цена сейчас вне зоны входа. Не переносите уровни вслед за ценой.',
+                         'Следите за условием отмены и сроком плана.']}
+    if not c['spread_ok']:
+        return {'title':'Проверка входа приостановлена: спред не подходит','tone':'paused',
+                'steps':['Спред слишком велик либо данных для его проверки нет.',
+                         'Дождитесь повторной проверки спреда до истечения плана.']}
+    if c['unknown_open_risk'] or c['max_lots_under_budget'] is None or c['max_lots_under_budget']<=0:
+        return {'title':'Сначала уточните риск и объём','tone':'paused',
+                'steps':['Проверьте стопы открытых позиций и параметры контракта в MT5.',
+                         'При неизвестном риске или исчерпанном лимите новый объём не предлагается.']}
+    return {'title':f'Условия модели выполнены: проверьте {button} вручную','tone':'ready',
+            'steps':['Сверьте символ, направление, текущую цену и спред в MT5.',
+                     'Укажите объём не выше расчётного ориентира; проверьте стоп и цели в окне заявки.',
+                     f'Если принимаете риск, самостоятельно нажмите {button} в MT5.',
+                     'После исполнения внесите фактическую цену, лоты и время в форму ниже.'],
+            'note':'Совпадение условий модели не измеряет вероятность прибыли. Объём рассчитан по лимиту 0,25% капитала без гэпов, комиссии и проскальзывания.'}
 
 class ScenarioWorkspace:
     def __init__(self, path=DATABASE):
@@ -33,6 +81,11 @@ class ScenarioWorkspace:
                 (scenario_id TEXT PRIMARY KEY, entry_time INTEGER NOT NULL, entry REAL NOT NULL,
                  lots REAL NOT NULL, exit_time INTEGER, exit_price REAL, net_pnl REAL,
                  recorded_at INTEGER NOT NULL)''')
+            columns={r[1] for r in db.execute('PRAGMA table_info(scenario_trades)')}
+            for name,kind in [('mt5_ticket','INTEGER'),('mt5_position_id','INTEGER'),('mt5_account_id','TEXT')]:
+                if name not in columns:db.execute(f'ALTER TABLE scenario_trades ADD COLUMN {name} {kind}')
+            db.execute('''CREATE UNIQUE INDEX IF NOT EXISTS scenario_mt5_position
+                ON scenario_trades(mt5_account_id,mt5_position_id) WHERE mt5_position_id IS NOT NULL''')
 
     def _events(self, now):
         with self.store.connect() as db:
@@ -82,8 +135,9 @@ class ScenarioWorkspace:
             decisions = {r[0]: {'action': r[1], 'time': r[2]} for r in db.execute(
                 'SELECT scenario_id,action,decided_at FROM scenario_decisions')}
             trades = {r[0]: {'entry_time': r[1], 'entry': r[2], 'lots': r[3],
-                              'exit_time': r[4], 'exit_price': r[5], 'net_pnl': r[6]}
-                      for r in db.execute('SELECT scenario_id,entry_time,entry,lots,exit_time,exit_price,net_pnl FROM scenario_trades')}
+                              'exit_time': r[4], 'exit_price': r[5], 'net_pnl': r[6],
+                              'mt5_ticket':r[7],'mt5_position_id':r[8]}
+                      for r in db.execute('SELECT scenario_id,entry_time,entry,lots,exit_time,exit_price,net_pnl,mt5_ticket,mt5_position_id FROM scenario_trades')}
         for row in scenarios:
             terminal, confirmed = row.pop('terminal'), row.pop('confirmed')
             last_time = confirmed['time'] if confirmed else row['created_at']
@@ -122,11 +176,13 @@ class ScenarioWorkspace:
                                    if confirmed else None)
         return sorted(scenarios, key=lambda r: (r['created_at'], r['id']), reverse=True)
 
-    def view(self, now=None):
+    def view(self, now=None, *, live=None):
         now = int(time.time()) if now is None else int(now)
         rows = self._rows(now)
         live_path = ROOT / 'results' / 'live.json'
-        if live_path.exists():
+        if live is not None:
+            pass
+        elif live_path.exists():
             try:
                 live = json.loads(live_path.read_text(encoding='utf-8'))
             except (OSError, ValueError):
@@ -136,6 +192,19 @@ class ScenarioWorkspace:
         quote = live.get('quote') or {}
         quote_time = int(live.get('quote_time') or 0)
         fresh = 0 <= now - quote_time <= 90 and bool(quote)
+        health = summarize_health(read_status('bridge',root=ROOT), {}, {}, now)
+        bridge_running = health['bridge']['alive'] and health['bridge']['state']=='running'
+        last_m1 = (live.get('source') or {}).get('last')
+        m1_fresh = m1_is_recent(last_m1,now)
+        data_ready = bool(fresh and bridge_running and m1_fresh)
+        data_reason = ('Нет свежего статуса моста MT5; проверка сценария приостановлена.'
+                       if not health['bridge']['alive'] else
+                       'Мост MT5 не получает новые данные; проверка сценария приостановлена.'
+                       if not bridge_running else
+                       'Ждём свежую котировку MT5; проверка входа приостановлена.'
+                       if not fresh else
+                       'Нет свежей закрытой M1; проверка сценария приостановлена.'
+                       if not m1_fresh else '')
         account = live.get('actual_positions') or {}
         symbol = live.get('symbol_details') or {}
         equity, known = account.get('equity'), account.get('known_risk')
@@ -143,6 +212,21 @@ class ScenarioWorkspace:
         budget = equity * 0.0025 if isinstance(equity, (float, int)) and equity > 0 else None
         headroom = max(0, budget - known) if budget is not None and isinstance(known, (float, int)) and not unknown else None
         for row in rows:
+            candidates=[p for p in account.get('positions',[]) if p.get('comment')==row['id']
+                        and p.get('symbol')==row['symbol']
+                        and p.get('direction')==('buy' if row['plan']['side']=='long' else 'sell')
+                        and type(p.get('ticket')) is int and p['ticket']>0
+                        and type(p.get('position_id')) is int and p['position_id']>0]
+            row['mt5_position']=None
+            row['mt5_link_reason']='Укажите точный ID сценария в комментарии заявки MT5: '+row['id']
+            if not data_ready:
+                row['mt5_link_reason']='Подтягивание позиции приостановлено до восстановления данных MT5.'
+            elif len(candidates)>1:
+                row['mt5_link_reason']='Несколько позиций с этим комментарием: используйте ручную запись.'
+            elif len(candidates)==1 and account.get('account_id'):
+                p=candidates[0]
+                row['mt5_position']={k:p.get(k) for k in ('ticket','position_id','entry','lots','stop')}
+                row['mt5_link_reason']='Найдена позиция MT5 по точному комментарию. Сверьте время и данные перед записью.'
             plan = row['plan']
             low, high = plan['entry']
             side = plan['side']
@@ -151,7 +235,7 @@ class ScenarioWorkspace:
             distance = abs((low + high) / 2 - plan['stop'])
             in_zone = bool(fresh and isinstance(price, (float, int)) and low <= price <= high)
             spread_ok = bool(fresh and isinstance(spread, (float, int)) and distance > 0 and spread <= distance * .25)
-            current = row['stage'] in ('waiting', 'near', 'confirmed') and fresh
+            current = row['stage'] in ('waiting', 'near', 'confirmed') and data_ready
             contract = symbol.get('contract_size')
             loss_per_lot = None
             if (symbol.get('symbol') == row['symbol'] and symbol.get('profit_currency') == account.get('currency')
@@ -164,6 +248,8 @@ class ScenarioWorkspace:
             if max_lots is not None and max_lots < (symbol.get('volume_min') or 0):
                 max_lots = 0
             row['checks'] = {'fresh': fresh, 'in_zone': in_zone, 'spread_ok': spread_ok,
+                             'data_ready': data_ready, 'data_reason': data_reason,
+                             'm1_fresh': m1_fresh, 'bridge_running': bridge_running,
                              'spread': spread, 'quote_price': price if fresh else None,
                              'current': current, 'open_risk': known,
                              'unknown_open_risk': unknown, 'account_equity': equity,
@@ -178,10 +264,16 @@ class ScenarioWorkspace:
                 adverse = entry - plan['stop'] if side == 'long' else plan['stop'] - entry
                 row['trade']['estimated_stop_loss'] = (adverse * contract * row['trade']['lots']
                     if adverse > 0 else None)
-        active_id = next((r['id'] for r in rows if r['checks']['current']), None)
+            row['guidance']=beginner_guidance(row)
+        active_id = next((r['id'] for r in rows if r['stage'] in ('waiting','near','confirmed')), None)
         visible = [r for index, r in enumerate(rows) if index < 40 or r['id'] == active_id
                    or r['decision'] is not None or r['trade'] is not None]
         return {'as_of': now, 'quote_time': quote_time or None, 'quote_fresh': fresh,
+                'data_ready': data_ready, 'data_reason': data_reason,
+                'account_review': {'positions':len(account.get('positions') or []),
+                                   'unknown_risk':unknown,'known_risk':known,
+                                   'budget':budget,'headroom':headroom,'currency':account.get('currency'),
+                                   'fresh':data_ready},
                 'scenarios': visible, 'active_id': active_id}
 
     def decide(self, scenario_id, action, now=None):
@@ -193,14 +285,29 @@ class ScenarioWorkspace:
         if not row:
             raise ValueError('Сценарий не найден в живом журнале')
         if not row['checks']['current']:
-            raise ValueError('Решение можно сохранить только пока сценарий и котировка актуальны')
+            raise ValueError('Решение можно сохранить только пока сценарий и данные MT5 актуальны')
         with self.store.connect() as db:
             if db.execute('SELECT 1 FROM scenario_decisions WHERE scenario_id=?', (scenario_id,)).fetchone():
                 raise ValueError('Решение уже сохранено для этого сценария')
             db.execute('INSERT INTO scenario_decisions VALUES (?,?,?)', (scenario_id, action, now))
         return self.view(now)
 
-    def record_trade(self, scenario_id, data, now=None):
+    def import_position(self, scenario_id, data, now=None):
+        now=int(time.time()) if now is None else int(now)
+        try:live=json.loads((ROOT/'results'/'live.json').read_text(encoding='utf-8'))
+        except (OSError,ValueError):raise ValueError('Нет свежего снимка MT5') from None
+        view=self.view(now,live=live)
+        row=next((r for r in view['scenarios'] if r['id']==scenario_id),None)
+        p=row.get('mt5_position') if row else None
+        if not view['data_ready'] or not p or p['ticket']!=data.get('ticket'):
+            raise ValueError('Свежая однозначная позиция не найдена; обновите карточку')
+        # Account identity is taken from the same live snapshot, never from the client.
+        account=live.get('actual_positions') or {}
+        return self.record_trade(scenario_id,{'entry':p['entry'],'lots':p['lots'],
+            'entry_time':data.get('entry_time')},now,
+            position={'ticket':p['ticket'],'position_id':p['position_id'],'account_id':account['account_id']})
+
+    def record_trade(self, scenario_id, data, now=None, *, position=None):
         now = int(time.time()) if now is None else int(now)
         row = next((r for r in self._rows(now) if r['id'] == scenario_id), None)
         if not row or not row['decision'] or row['decision']['action'] != 'watch':
@@ -215,8 +322,15 @@ class ScenarioWorkspace:
         with self.store.connect() as db:
             if db.execute('SELECT 1 FROM scenario_trades WHERE scenario_id=?', (scenario_id,)).fetchone():
                 raise ValueError('Фактический вход уже сохранён для сценария')
-            db.execute('INSERT INTO scenario_trades (scenario_id,entry_time,entry,lots,recorded_at) VALUES (?,?,?,?,?)',
-                       (scenario_id, entry_time, entry, lots, now))
+            position=position or {}
+            try:
+                db.execute('''INSERT INTO scenario_trades
+                    (scenario_id,entry_time,entry,lots,recorded_at,mt5_ticket,mt5_position_id,mt5_account_id)
+                    VALUES (?,?,?,?,?,?,?,?)''',
+                    (scenario_id,entry_time,entry,lots,now,position.get('ticket'),
+                     position.get('position_id'),position.get('account_id')))
+            except sqlite3.IntegrityError:
+                raise ValueError('Эта позиция MT5 уже привязана к сценарию') from None
         return self.view(now)
 
     def close_trade(self, scenario_id, data, now=None):
@@ -240,11 +354,13 @@ class ScenarioWorkspace:
         output = io.StringIO()
         writer = csv.writer(output)
         writer.writerow(['scenario_id', 'model', 'created_utc', 'stage', 'decision', 'decision_utc',
-                         'entry_utc', 'entry_price', 'lots', 'exit_utc', 'exit_price', 'net_pnl_broker'])
+                         'entry_utc', 'entry_price', 'lots', 'exit_utc', 'exit_price', 'net_pnl_broker',
+                         'mt5_ticket','mt5_position_id'])
         for row in rows:
             decision, trade = row['decision'] or {}, row['trade'] or {}
             writer.writerow([row['id'], row['model'], row['created_at'], row['stage'],
                              decision.get('action'), decision.get('time'), trade.get('entry_time'),
                              trade.get('entry'), trade.get('lots'), trade.get('exit_time'),
-                             trade.get('exit_price'), trade.get('net_pnl')])
+                             trade.get('exit_price'), trade.get('net_pnl'),
+                             trade.get('mt5_ticket'),trade.get('mt5_position_id')])
         return output.getvalue().encode('utf-8-sig')

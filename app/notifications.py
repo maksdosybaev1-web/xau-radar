@@ -76,7 +76,10 @@ def send_telegram(text,config=None):
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
         with opener.open(request,timeout=8) as response:answer=json.load(response)
         if not answer.get('ok'):raise DeliveryError('Telegram отклонил сообщение')
-        return answer['result'].get('message_id')
+        message_id=answer.get('result',{}).get('message_id')
+        if not isinstance(message_id,int) or message_id<=0:
+            raise DeliveryError('Telegram ответил без ID сообщения; результат доставки неизвестен')
+        return message_id
     except urllib.error.HTTPError as exc:
         if exc.code==429:
             try:delay=int(json.loads(exc.read()).get('parameters',{}).get('retry_after',30))
@@ -134,7 +137,7 @@ def format_alert(event):
         body=format_trade_plan(event['analysis_plan'])
         model='SBR' if event['type']=='sbr_sell_plan' else 'RBS'
         action='продажу' if model=='SBR' else 'покупку'
-        why=('Цена пробила поддержку вниз; ждём возврата к ней снизу.'
+        why=event.get('reason') or ('Цена пробила поддержку вниз; ждём возврата к ней снизу.'
              if event['type']=='sbr_sell_plan' else
              'Цена пробила сопротивление вверх; ждём возврата к нему сверху.')
         target_note=(' ТП рассчитаны как 1R/2R/3R; структурную цель M15 проверим после ретеста.'
@@ -143,6 +146,7 @@ def format_alert(event):
                 f"Сценарий: {model}-{scenario}\n"
                 f"Проверьте возможную {action}: ждём возврата цены к зоне.\n"+body+
                 '\nПочему: '+why+
+                '\nСледующая проверка: первый ретест уровня и закрытие M5.'+
                 '\nЗона входа, стоп и ТП — расчётные ориентиры.'+target_note+
                 ' Ретест ещё не подтверждён; заявки нет.'+deadline_note)
     if event['type'] in ('sbr_sell_closed','rbs_buy_closed'):
@@ -167,11 +171,16 @@ def format_alert(event):
                 body=None
             if body is not None:
                 action='покупку' if direction=='BUY' else 'продажу'
+                why=event.get('reason') or 'Цена приблизилась к зоне быстрого движения; ждём подтверждения на M5.'
+                target_note=(' Цели 1R/2R/3R рассчитаны от середины зоны и стопа.'
+                             if plan.get('target_method')=='midpoint_r_1_2_3' else '')
                 return (f"{event['symbol']} · FVG · предварительно · {stamp}\n"
                         f"Сценарий: FVG-{scenario}\n"
                         f"Проверьте возможную {action}: цена подошла к зоне.\n"+body+
-                        '\nПочему: цена приблизилась к зоне быстрого движения; ждём подтверждения на M5.'
-                        '\nЗона входа, стоп и ТП — расчётные ориентиры. Вход ещё не подтверждён; заявки нет.'+
+                        '\nПочему: '+why+
+                        '\nСледующая проверка: подтверждение на закрытой M5.'+
+                        '\nЗона входа, стоп и ТП — расчётные ориентиры.'+target_note+
+                        ' Вход ещё не подтверждён; заявки нет.'+
                         deadline_note)
         state='Цена приблизилась' if event['type']=='fvg_near' else 'M5 подтвердила условия'
         same_plan=('\n'+format_trade_plan(event['analysis_plan']) if event['type']=='fvg_confirmed' and event.get('analysis_plan') else '')
@@ -189,7 +198,8 @@ def format_alert(event):
                 f"Сценарий: SBR-{scenario}\nШорт · ретест подтверждён M5\nЦена закрытия {value('price')}\n"
                 f"{same_plan or 'Стоп '+value('stop')+'; ТП '+value('target')}\n"
                 f"{objective}"
-                "Почему: после возврата к пробитой поддержке свеча M5 закрылась под ней.\n"
+                "Почему: "+(event.get('reason') or 'После возврата к пробитой поддержке свеча M5 закрылась под ней.')+"\n"
+                "Следующая проверка: текущая цена в зоне входа, спред и риск открытых позиций в MT5.\n"
                 "Подтверждение сценария, не исполнение сделки.")
     if event['type']=='rbs_buy_confirmed':
         same_plan=('\n'+format_trade_plan(event['analysis_plan']) if event.get('analysis_plan') else '')
@@ -198,7 +208,8 @@ def format_alert(event):
                 f"Сценарий: RBS-{scenario}\nЛонг · ретест подтверждён M5\nЦена закрытия {value('price')}\n"
                 f"{same_plan or 'Стоп '+value('stop')+'; ТП '+value('target')}\n"
                 f"{objective}"
-                "Почему: после возврата к пробитому сопротивлению свеча M5 закрылась над ним.\n"
+                "Почему: "+(event.get('reason') or 'После возврата к пробитому сопротивлению свеча M5 закрылась над ним.')+"\n"
+                "Следующая проверка: текущая цена в зоне входа, спред и риск открытых позиций в MT5.\n"
                 "Подтверждение сценария, не исполнение сделки.")
     price_label='Bid' if event.get('price_kind')=='bid' else 'Цена закрытия'
     indicator_label='Совпали индикаторные условия · проверьте вручную' if event['type']=='watch' else event['label']
@@ -215,7 +226,13 @@ class AlertStore:
     def __init__(self,path=None):
         self.path=path or DATABASE;self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.connect() as db:
-            db.execute('CREATE TABLE IF NOT EXISTS alerts (id TEXT PRIMARY KEY, time INTEGER, tf TEXT, kind TEXT, payload TEXT, status TEXT, attempts INTEGER DEFAULT 0, next_attempt INTEGER DEFAULT 0, detail TEXT DEFAULT "")')
+            db.execute('CREATE TABLE IF NOT EXISTS alerts (id TEXT PRIMARY KEY, time INTEGER, tf TEXT, kind TEXT, payload TEXT, status TEXT, attempts INTEGER DEFAULT 0, next_attempt INTEGER DEFAULT 0, detail TEXT DEFAULT "", sent_at INTEGER, telegram_message_id INTEGER)')
+            columns={row[1] for row in db.execute('PRAGMA table_info(alerts)')}
+            if not {'sent_at','telegram_message_id'}<=columns:
+                db.execute('BEGIN IMMEDIATE')
+                columns={row[1] for row in db.execute('PRAGMA table_info(alerts)')}
+                if 'sent_at' not in columns:db.execute('ALTER TABLE alerts ADD COLUMN sent_at INTEGER')
+                if 'telegram_message_id' not in columns:db.execute('ALTER TABLE alerts ADD COLUMN telegram_message_id INTEGER')
             db.execute('CREATE INDEX IF NOT EXISTS alert_time ON alerts(time)')
 
     @contextmanager
@@ -337,14 +354,16 @@ class AlertStore:
                 early_plan=event['type'] in ('sbr_sell_plan','rbs_buy_plan') or (
                     event['type']=='fvg_near' and bool(event.get('analysis_plan')))
                 delivery_config=dict(config,disable_notification=not early_plan)
-                sender(format_alert(event),delivery_config)
+                message_id=sender(format_alert(event),delivery_config)
                 status,detail,next_try='sent','Доставка подтверждена',0
             except DeliveryError as exc:
                 next_try=now+(exc.retry_after or 0)
                 status='pending' if exc.retry_after and attempts<2 and next_try-stamp<=180 else 'failed'
                 detail=str(exc)
             with self.connect() as db:
-                db.execute('UPDATE alerts SET status=?,detail=?,next_attempt=? WHERE id=?',(status,detail,next_try,key))
+                db.execute('UPDATE alerts SET status=?,detail=?,next_attempt=?,sent_at=?,telegram_message_id=? WHERE id=?',
+                           (status,detail,next_try,now if status=='sent' else None,
+                            message_id if status=='sent' else None,key))
 
 
 def delivery_worker(stop):

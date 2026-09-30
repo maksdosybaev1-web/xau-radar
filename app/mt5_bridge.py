@@ -1,11 +1,11 @@
 """Read-only MT5 bridge. Imports optional MetaTrader5; no trade API calls."""
-import argparse, datetime as dt, json, math, time, threading, sqlite3
+import argparse, datetime as dt, json, math, time, threading, sqlite3, hashlib
 from .datafeed import ROOT
 from .engine import Radar
 from .research import save_json
 from .live_market import LiveMarket
 from .notifications import delivery_worker
-from .operations import heartbeat
+from .operations import heartbeat, m1_is_recent
 from .snr_sbr_live import SBRForward
 from .snr_rbs_live import RBSForward
 from .nested_forward import NestedForward
@@ -18,6 +18,15 @@ class RatesUnavailable(RuntimeError):
     def __init__(self, code):
         self.code=code
         super().__init__(f'Терминал не вернул свечи M1 (код {code})')
+
+
+class ClosedM1Stale(RuntimeError):
+    pass
+
+
+def require_recent_m1(last,now):
+    if not m1_is_recent(last,now):
+        raise ClosedM1Stale('Нет свежей закрытой M1; новые сценарии приостановлены')
 
 
 def closed_m1_rates(mt5,symbol,last,now,primed):
@@ -60,8 +69,11 @@ def account_risk(mt5):
             if value is not None:risk=max(0,-value);known+=risk
         if risk is None:unknown+=1
         rows.append({'ticket':p.ticket,'symbol':p.symbol,'direction':'buy' if p.type==0 else 'sell','lots':p.volume,
+                     'position_id':getattr(p,'identifier',p.ticket),'comment':getattr(p,'comment',''),
                      'entry':p.price_open,'stop':p.sl or None,'current':p.price_current,'remaining_risk':risk})
     return {'known_risk':known,'unknown_count':unknown,'positions':rows,
+            'account_id':hashlib.sha256(f'{account.server}|{account.login}'.encode()).hexdigest()
+                if account and getattr(account,'server',None) and getattr(account,'login',None) else None,
             'currency':account.currency if account else None,'equity':account.equity if account else None,
             'note':'Оставшийся риск по стопам всех позиций счёта; без взаимозачёта корреляций, гэпов, комиссии и проскальзывания. Без стопа общий риск неизвестен.'}
 
@@ -134,6 +146,7 @@ def main():
                         nested.ingest(row,now,int(tick.time))
                     if (last is None and index<len(rates)-10000) or (last is not None and t<=last):continue
                     radar.on_bar(row);last=t;processed_rows+=1
+                require_recent_m1(last,now)
                 if not primed:
                     if not restored:begin_forward(radar)
                     sbr.finish_bootstrap();rbs.finish_bootstrap();primed=True
@@ -170,7 +183,12 @@ def main():
                 save_json(folder/'snr_sbr_live.json',sbr.state(now,int(tick.time)))
                 save_json(folder/'snr_rbs_live.json',rbs.state(now,int(tick.time)))
                 save_json(folder/'nested_forward_live.json',nested.state(now,int(tick.time)))
-                heartbeat('bridge','running',quote_time=int(tick.time),rows=processed_rows)
+                closed_times=[int(r['time']) for r in rates if int(r['time'])+60<=now]
+                m1_gaps=[{'before':a,'after':b,'missing_minutes':(b-a)//60-1,
+                          'classification':'Причина отсутствия M1 у брокера не установлена'}
+                         for a,b in zip(closed_times,closed_times[1:]) if b-a>60 and b>=fvg_since]
+                heartbeat('bridge','running',quote_time=int(tick.time),rows=processed_rows,
+                          last_m1=last,m1_gaps=m1_gaps)
                 print(f'Котировка {dt.datetime.fromtimestamp(tick.time,dt.timezone.utc).isoformat()}; загружено M1-свечей {processed_rows}; только чтение',flush=True)
                 if not args.watch:break
                 time.sleep(10)

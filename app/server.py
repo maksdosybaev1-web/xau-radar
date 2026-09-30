@@ -239,6 +239,8 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path=='/api/health':return self.send_data({'ok':True,'history_ready':RESULT is not None,'ai':ai_review.status()})
             if parsed.path=='/api/rules':return self.send_data({'text':(ROOT/'docs'/'SPEC.md').read_text(encoding='utf-8')})
             downloads={'/download/trades.csv':ROOT/'results'/'trades.csv','/download/events.jsonl':ROOT/'results'/'events.jsonl','/download/validation.md':ROOT/'results'/'validation.md'}
+            downloads['/download/v2_forward_evidence.md']=ROOT/'results'/'v2_forward_evidence.md'
+            downloads['/download/v2_forward_evidence.json']=ROOT/'results'/'v2_forward_evidence.json'
             downloads['/download/fvg_forward_events.jsonl']=ROOT/'results'/'forward_events.jsonl'
             downloads['/download/technical_validation.md']=ROOT/'results'/'technical_validation.md'
             downloads.update({'/download/sbr_validation.md':ROOT/'results'/'snr_sbr_validation.md',
@@ -272,19 +274,21 @@ class Handler(BaseHTTPRequestHandler):
             size=int(self.headers.get('Content-Length','0'))
             if not 0<size<=4096:return self.send_data({'error':'Некорректный размер запроса'},400)
             payload=json.loads(self.rfile.read(size))
-            if self.path in ('/api/scenario-decision','/api/scenario-entry','/api/scenario-exit'):
+            if self.path in ('/api/scenario-decision','/api/scenario-entry','/api/scenario-exit','/api/scenario-import-position'):
                 workspace=scenario_workspace.ScenarioWorkspace()
                 identity=payload.get('scenario_id')
                 if not isinstance(identity,str) or len(identity)>160 or not identity:
                     raise ValueError('Укажите идентификатор сценария')
                 if self.path=='/api/scenario-decision':return self.send_data(workspace.decide(identity,payload.get('action')))
                 if self.path=='/api/scenario-entry':return self.send_data(workspace.record_trade(identity,payload))
+                if self.path=='/api/scenario-import-position':return self.send_data(workspace.import_position(identity,payload))
                 return self.send_data(workspace.close_trade(identity,payload))
             if self.path=='/api/telegram':return self.send_data(notifications.save_settings(payload))
             if self.path=='/api/telegram-test':
-                try:notifications.send_telegram('XAU/USD RADAR: проверка доставки. Это тестовое сообщение, не рыночный сигнал.')
+                try:message_id=notifications.send_telegram('XAU/USD RADAR: проверка доставки. Это тестовое сообщение, не рыночный сигнал.')
                 except notifications.DeliveryError as exc:raise ValueError(str(exc)) from None
-                return self.send_data({'ok':True,'message':'Тестовое сообщение доставлено'})
+                return self.send_data({'ok':True,'message':'Telegram API принял тестовое сообщение',
+                                       'message_id':message_id,'confirmed_at':int(time.time())})
             if self.path=='/api/explain':
                 result=self.get_result({'source':[payload.get('source','history')]})
                 if result is None:raise ValueError('Данных нет')

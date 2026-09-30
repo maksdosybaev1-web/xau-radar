@@ -1,0 +1,791 @@
+{
+  "captured_at": "2026-09-30T08:40:57.557700+00:00",
+  "journal_sha256": "c44913eb6117a170ac386c36813db998d0dc41985d540017c7c6959e2b664727",
+  "checks": [
+    {
+      "journal": {
+        "id": "608e3b75a7e6d848532a9f3d",
+        "level_id": "a5c17cf6f5e12cbf7beec116",
+        "state": "broken",
+        "time": 1790742000,
+        "reason": "close_above_resistance",
+        "version": "snr-rbs-close-0.1-research",
+        "spec_hash": "5743c369b58bb898ec84cbaeabd5b38514f59627bf3850189ce927b4ba4d3eae",
+        "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "source_supported": "resistance_break_retest",
+        "research_assumption": "numeric_rules",
+        "bar": {
+          "time": 1790741700,
+          "end": 1790742000,
+          "open": 4173.72,
+          "high": 4177.87,
+          "low": 4173.46,
+          "close": 4176.81,
+          "volume": 932.0
+        },
+        "h1_context": "buy",
+        "received_at": 1790742007,
+        "quote_time": 1790742004,
+        "observation_quality": "timely",
+        "execution_mode": "live_signal_only",
+        "result_status": "not_evaluated",
+        "dedup_key": "4b43e3185b88a4006f098a59d0e00be47a252e4f671dcddb94a3cf0dc408a718",
+        "delivery_alert": {
+          "id": "rbs-plan-4b43e3185b88a4006f098a59d0e00be47a252e4f671dcddb94a3cf0dc408a718",
+          "time": 1790742000,
+          "tf": "M5",
+          "type": "rbs_buy_plan",
+          "cooldown_key": "rbs_buy_plan:a5c17cf6f5e12cbf7beec116",
+          "label": "RBS BUY · план ретеста",
+          "direction": "buy",
+          "symbol": "XAUUSD",
+          "source": "MT5 · XAUUSD",
+          "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+          "version": "snr-rbs-close-0.1-research",
+          "level_id": "a5c17cf6f5e12cbf7beec116",
+          "analysis_plan": {
+            "side": "long",
+            "entry": [
+              4175.13,
+              4175.75
+            ],
+            "stop": 4174.82,
+            "targets": [
+              4176.06,
+              4176.68,
+              4177.3
+            ],
+            "retest": true,
+            "cancel_rule": "закрытие M5 ниже 4175.13",
+            "price_step": 0.01,
+            "target_method": "midpoint_r_1_2_3",
+            "stop_method": "band_edge_plus_atr_buffer",
+            "known_at": 1790742000
+          },
+          "scenario_lifecycle": {
+            "version": 1,
+            "stage": "waiting",
+            "valid_until": 1790745600,
+            "expiry_reason": "Истёк срок ожидания первого ретеста (12 M5); нужен новый план"
+          },
+          "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён."
+        },
+        "delivery_enabled": true
+      },
+      "delivery": {
+        "id": "rbs-plan-4b43e3185b88a4006f098a59d0e00be47a252e4f671dcddb94a3cf0dc408a718",
+        "payload": "{\"id\": \"rbs-plan-4b43e3185b88a4006f098a59d0e00be47a252e4f671dcddb94a3cf0dc408a718\", \"time\": 1790742000, \"tf\": \"M5\", \"type\": \"rbs_buy_plan\", \"cooldown_key\": \"rbs_buy_plan:a5c17cf6f5e12cbf7beec116\", \"label\": \"RBS BUY · план ретеста\", \"direction\": \"buy\", \"symbol\": \"XAUUSD\", \"source\": \"MT5 · XAUUSD\", \"source_hash\": \"fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e\", \"version\": \"snr-rbs-close-0.1-research\", \"level_id\": \"a5c17cf6f5e12cbf7beec116\", \"analysis_plan\": {\"side\": \"long\", \"entry\": [4175.13, 4175.75], \"stop\": 4174.82, \"targets\": [4176.06, 4176.68, 4177.3], \"retest\": true, \"cancel_rule\": \"закрытие M5 ниже 4175.13\", \"price_step\": 0.01, \"target_method\": \"midpoint_r_1_2_3\", \"stop_method\": \"band_edge_plus_atr_buffer\", \"known_at\": 1790742000}, \"scenario_lifecycle\": {\"version\": 1, \"stage\": \"waiting\", \"valid_until\": 1790745600, \"expiry_reason\": \"Истёк срок ожидания первого ретеста (12 M5); нужен новый план\"}, \"reason\": \"Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\", \"observed_at\": 1790742007}",
+        "status": "sent",
+        "attempts": 1,
+        "sent_at": 1790742010,
+        "telegram_message_id": 60
+      },
+      "scenario": {
+        "id": "rbs-plan-4b43e3185b88a4006f098a59d0e00be47a252e4f671dcddb94a3cf0dc408a718",
+        "model": "RBS",
+        "key": "a5c17cf6f5e12cbf7beec116",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "created_at": 1790742000,
+        "plan": {
+          "side": "long",
+          "entry": [
+            4175.13,
+            4175.75
+          ],
+          "stop": 4174.82,
+          "targets": [
+            4176.06,
+            4176.68,
+            4177.3
+          ],
+          "retest": true,
+          "cancel_rule": "закрытие M5 ниже 4175.13",
+          "price_step": 0.01,
+          "target_method": "midpoint_r_1_2_3",
+          "stop_method": "band_edge_plus_atr_buffer",
+          "known_at": 1790742000
+        },
+        "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.",
+        "plan_type": "rbs_buy_plan",
+        "plan_delivery": "sent",
+        "valid_until": 1790745600,
+        "stage": "expired",
+        "stage_at": 1790745600,
+        "stage_reason": "Истёк срок ожидания первого ретеста (12 M5); нужен новый план",
+        "decision": null,
+        "trade": null,
+        "confirmation": null,
+        "checks": {
+          "fresh": true,
+          "in_zone": false,
+          "spread_ok": false,
+          "spread": 0.3000000000001819,
+          "quote_price": 4200.93,
+          "current": false,
+          "open_risk": 0.0,
+          "unknown_open_risk": 0,
+          "account_equity": 100000.0,
+          "risk_budget_025_pct": 250.0,
+          "remaining_budget": 250.0,
+          "loss_per_lot_at_stop": 93.0000000000291,
+          "max_lots_under_budget": 2.68,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "account_currency": "USD",
+          "ready_to_review_entry": false
+        }
+      },
+      "text_reconstructed_from_saved_payload": "XAUUSD · RBS · предварительно · 30.09.2026 04:20 UTC\nСценарий: RBS-a5c17cf6f5e1\nПроверьте возможную покупку: ждём возврата цены к зоне.\nЛонг 4175.13–4175.75 на ретесте\nСтоп 4174.82\nТП 4176.06, 4176.68, 4177.3\nОтмена: закрытие M5 ниже 4175.13\nПочему: Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\nСледующая проверка: первый ретест уровня и закрытие M5.\nЗона входа, стоп и ТП — расчётные ориентиры. ТП рассчитаны как 1R/2R/3R; структурную цель M15 проверим после ретеста. Ретест ещё не подтверждён; заявки нет.\nАктуален до 30.09.2026 05:20 UTC, если не отменён раньше.",
+      "delay_from_event_seconds": 10,
+      "delay_from_observation_seconds": 3
+    },
+    {
+      "journal": {
+        "id": "f4030de8e003db9424f98b3c",
+        "level_id": "0489696cb4a3b44e0a70d6f7",
+        "state": "broken",
+        "time": 1790743200,
+        "reason": "close_above_resistance",
+        "version": "snr-rbs-close-0.1-research",
+        "spec_hash": "5743c369b58bb898ec84cbaeabd5b38514f59627bf3850189ce927b4ba4d3eae",
+        "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "source_supported": "resistance_break_retest",
+        "research_assumption": "numeric_rules",
+        "bar": {
+          "time": 1790742900,
+          "end": 1790743200,
+          "open": 4178.48,
+          "high": 4183.11,
+          "low": 4178.46,
+          "close": 4182.83,
+          "volume": 753.0
+        },
+        "h1_context": "buy",
+        "received_at": 1790743202,
+        "quote_time": 1790743202,
+        "observation_quality": "timely",
+        "execution_mode": "live_signal_only",
+        "result_status": "not_evaluated",
+        "dedup_key": "95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a",
+        "delivery_alert": {
+          "id": "rbs-plan-95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a",
+          "time": 1790743200,
+          "tf": "M5",
+          "type": "rbs_buy_plan",
+          "cooldown_key": "rbs_buy_plan:0489696cb4a3b44e0a70d6f7",
+          "label": "RBS BUY · план ретеста",
+          "direction": "buy",
+          "symbol": "XAUUSD",
+          "source": "MT5 · XAUUSD",
+          "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+          "version": "snr-rbs-close-0.1-research",
+          "level_id": "0489696cb4a3b44e0a70d6f7",
+          "analysis_plan": {
+            "side": "long",
+            "entry": [
+              4181.31,
+              4182.09
+            ],
+            "stop": 4180.92,
+            "targets": [
+              4182.48,
+              4183.26,
+              4184.04
+            ],
+            "retest": true,
+            "cancel_rule": "закрытие M5 ниже 4181.31",
+            "price_step": 0.01,
+            "target_method": "midpoint_r_1_2_3",
+            "stop_method": "band_edge_plus_atr_buffer",
+            "known_at": 1790743200
+          },
+          "scenario_lifecycle": {
+            "version": 1,
+            "stage": "waiting",
+            "valid_until": 1790746800,
+            "expiry_reason": "Истёк срок ожидания первого ретеста (12 M5); нужен новый план"
+          },
+          "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён."
+        },
+        "delivery_enabled": true
+      },
+      "delivery": {
+        "id": "rbs-plan-95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a",
+        "payload": "{\"id\": \"rbs-plan-95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a\", \"time\": 1790743200, \"tf\": \"M5\", \"type\": \"rbs_buy_plan\", \"cooldown_key\": \"rbs_buy_plan:0489696cb4a3b44e0a70d6f7\", \"label\": \"RBS BUY · план ретеста\", \"direction\": \"buy\", \"symbol\": \"XAUUSD\", \"source\": \"MT5 · XAUUSD\", \"source_hash\": \"fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e\", \"version\": \"snr-rbs-close-0.1-research\", \"level_id\": \"0489696cb4a3b44e0a70d6f7\", \"analysis_plan\": {\"side\": \"long\", \"entry\": [4181.31, 4182.09], \"stop\": 4180.92, \"targets\": [4182.48, 4183.26, 4184.04], \"retest\": true, \"cancel_rule\": \"закрытие M5 ниже 4181.31\", \"price_step\": 0.01, \"target_method\": \"midpoint_r_1_2_3\", \"stop_method\": \"band_edge_plus_atr_buffer\", \"known_at\": 1790743200}, \"scenario_lifecycle\": {\"version\": 1, \"stage\": \"waiting\", \"valid_until\": 1790746800, \"expiry_reason\": \"Истёк срок ожидания первого ретеста (12 M5); нужен новый план\"}, \"reason\": \"Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\", \"observed_at\": 1790743202}",
+        "status": "sent",
+        "attempts": 1,
+        "sent_at": 1790743204,
+        "telegram_message_id": 61
+      },
+      "scenario": {
+        "id": "rbs-plan-95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a",
+        "model": "RBS",
+        "key": "0489696cb4a3b44e0a70d6f7",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "created_at": 1790743200,
+        "plan": {
+          "side": "long",
+          "entry": [
+            4181.31,
+            4182.09
+          ],
+          "stop": 4180.92,
+          "targets": [
+            4182.48,
+            4183.26,
+            4184.04
+          ],
+          "retest": true,
+          "cancel_rule": "закрытие M5 ниже 4181.31",
+          "price_step": 0.01,
+          "target_method": "midpoint_r_1_2_3",
+          "stop_method": "band_edge_plus_atr_buffer",
+          "known_at": 1790743200
+        },
+        "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.",
+        "plan_type": "rbs_buy_plan",
+        "plan_delivery": "sent",
+        "valid_until": null,
+        "stage": "ended",
+        "stage_at": 1790743500,
+        "stage_reason": "Свеча M5 закрылась ниже полосы пробитого сопротивления.",
+        "decision": null,
+        "trade": null,
+        "confirmation": null,
+        "checks": {
+          "fresh": true,
+          "in_zone": false,
+          "spread_ok": false,
+          "spread": 0.3000000000001819,
+          "quote_price": 4200.93,
+          "current": false,
+          "open_risk": 0.0,
+          "unknown_open_risk": 0,
+          "account_equity": 100000.0,
+          "risk_budget_025_pct": 250.0,
+          "remaining_budget": 250.0,
+          "loss_per_lot_at_stop": 117.00000000000728,
+          "max_lots_under_budget": 2.13,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "account_currency": "USD",
+          "ready_to_review_entry": false
+        }
+      },
+      "text_reconstructed_from_saved_payload": "XAUUSD · RBS · предварительно · 30.09.2026 04:40 UTC\nСценарий: RBS-0489696cb4a3\nПроверьте возможную покупку: ждём возврата цены к зоне.\nЛонг 4181.31–4182.09 на ретесте\nСтоп 4180.92\nТП 4182.48, 4183.26, 4184.04\nОтмена: закрытие M5 ниже 4181.31\nПочему: Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\nСледующая проверка: первый ретест уровня и закрытие M5.\nЗона входа, стоп и ТП — расчётные ориентиры. ТП рассчитаны как 1R/2R/3R; структурную цель M15 проверим после ретеста. Ретест ещё не подтверждён; заявки нет.\nАктуален до 30.09.2026 05:40 UTC, если не отменён раньше.",
+      "delay_from_event_seconds": 4,
+      "delay_from_observation_seconds": 2
+    },
+    {
+      "journal": {
+        "id": "f1f60da7f424e47351dbc2cf",
+        "level_id": "570b4549718317762c80df1f",
+        "state": "broken",
+        "time": 1790743200,
+        "reason": "close_above_resistance",
+        "version": "snr-rbs-close-0.1-research",
+        "spec_hash": "5743c369b58bb898ec84cbaeabd5b38514f59627bf3850189ce927b4ba4d3eae",
+        "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "source_supported": "resistance_break_retest",
+        "research_assumption": "numeric_rules",
+        "bar": {
+          "time": 1790742900,
+          "end": 1790743200,
+          "open": 4178.48,
+          "high": 4183.11,
+          "low": 4178.46,
+          "close": 4182.83,
+          "volume": 753.0
+        },
+        "h1_context": "buy",
+        "received_at": 1790743202,
+        "quote_time": 1790743202,
+        "observation_quality": "timely",
+        "execution_mode": "live_signal_only",
+        "result_status": "not_evaluated",
+        "dedup_key": "4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20",
+        "delivery_alert": {
+          "id": "rbs-plan-4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20",
+          "time": 1790743200,
+          "tf": "M5",
+          "type": "rbs_buy_plan",
+          "cooldown_key": "rbs_buy_plan:570b4549718317762c80df1f",
+          "label": "RBS BUY · план ретеста",
+          "direction": "buy",
+          "symbol": "XAUUSD",
+          "source": "MT5 · XAUUSD",
+          "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+          "version": "snr-rbs-close-0.1-research",
+          "level_id": "570b4549718317762c80df1f",
+          "analysis_plan": {
+            "side": "long",
+            "entry": [
+              4180.29,
+              4181.07
+            ],
+            "stop": 4179.9,
+            "targets": [
+              4181.46,
+              4182.24,
+              4183.02
+            ],
+            "retest": true,
+            "cancel_rule": "закрытие M5 ниже 4180.29",
+            "price_step": 0.01,
+            "target_method": "midpoint_r_1_2_3",
+            "stop_method": "band_edge_plus_atr_buffer",
+            "known_at": 1790743200
+          },
+          "scenario_lifecycle": {
+            "version": 1,
+            "stage": "waiting",
+            "valid_until": 1790746800,
+            "expiry_reason": "Истёк срок ожидания первого ретеста (12 M5); нужен новый план"
+          },
+          "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён."
+        },
+        "delivery_enabled": true
+      },
+      "delivery": {
+        "id": "rbs-plan-4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20",
+        "payload": "{\"id\": \"rbs-plan-4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20\", \"time\": 1790743200, \"tf\": \"M5\", \"type\": \"rbs_buy_plan\", \"cooldown_key\": \"rbs_buy_plan:570b4549718317762c80df1f\", \"label\": \"RBS BUY · план ретеста\", \"direction\": \"buy\", \"symbol\": \"XAUUSD\", \"source\": \"MT5 · XAUUSD\", \"source_hash\": \"fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e\", \"version\": \"snr-rbs-close-0.1-research\", \"level_id\": \"570b4549718317762c80df1f\", \"analysis_plan\": {\"side\": \"long\", \"entry\": [4180.29, 4181.07], \"stop\": 4179.9, \"targets\": [4181.46, 4182.24, 4183.02], \"retest\": true, \"cancel_rule\": \"закрытие M5 ниже 4180.29\", \"price_step\": 0.01, \"target_method\": \"midpoint_r_1_2_3\", \"stop_method\": \"band_edge_plus_atr_buffer\", \"known_at\": 1790743200}, \"scenario_lifecycle\": {\"version\": 1, \"stage\": \"waiting\", \"valid_until\": 1790746800, \"expiry_reason\": \"Истёк срок ожидания первого ретеста (12 M5); нужен новый план\"}, \"reason\": \"Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\", \"observed_at\": 1790743202}",
+        "status": "sent",
+        "attempts": 1,
+        "sent_at": 1790743204,
+        "telegram_message_id": 62
+      },
+      "scenario": {
+        "id": "rbs-plan-4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20",
+        "model": "RBS",
+        "key": "570b4549718317762c80df1f",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "created_at": 1790743200,
+        "plan": {
+          "side": "long",
+          "entry": [
+            4180.29,
+            4181.07
+          ],
+          "stop": 4179.9,
+          "targets": [
+            4181.46,
+            4182.24,
+            4183.02
+          ],
+          "retest": true,
+          "cancel_rule": "закрытие M5 ниже 4180.29",
+          "price_step": 0.01,
+          "target_method": "midpoint_r_1_2_3",
+          "stop_method": "band_edge_plus_atr_buffer",
+          "known_at": 1790743200
+        },
+        "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.",
+        "plan_type": "rbs_buy_plan",
+        "plan_delivery": "sent",
+        "valid_until": null,
+        "stage": "ended",
+        "stage_at": 1790743500,
+        "stage_reason": "Первый ретест не подтвердил сценарий.",
+        "decision": null,
+        "trade": null,
+        "confirmation": null,
+        "checks": {
+          "fresh": true,
+          "in_zone": false,
+          "spread_ok": false,
+          "spread": 0.3000000000001819,
+          "quote_price": 4200.93,
+          "current": false,
+          "open_risk": 0.0,
+          "unknown_open_risk": 0,
+          "account_equity": 100000.0,
+          "risk_budget_025_pct": 250.0,
+          "remaining_budget": 250.0,
+          "loss_per_lot_at_stop": 117.00000000000728,
+          "max_lots_under_budget": 2.13,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "account_currency": "USD",
+          "ready_to_review_entry": false
+        }
+      },
+      "text_reconstructed_from_saved_payload": "XAUUSD · RBS · предварительно · 30.09.2026 04:40 UTC\nСценарий: RBS-570b45497183\nПроверьте возможную покупку: ждём возврата цены к зоне.\nЛонг 4180.29–4181.07 на ретесте\nСтоп 4179.9\nТП 4181.46, 4182.24, 4183.02\nОтмена: закрытие M5 ниже 4180.29\nПочему: Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.\nСледующая проверка: первый ретест уровня и закрытие M5.\nЗона входа, стоп и ТП — расчётные ориентиры. ТП рассчитаны как 1R/2R/3R; структурную цель M15 проверим после ретеста. Ретест ещё не подтверждён; заявки нет.\nАктуален до 30.09.2026 05:40 UTC, если не отменён раньше.",
+      "delay_from_event_seconds": 4,
+      "delay_from_observation_seconds": 2
+    },
+    {
+      "journal": {
+        "id": "c13ddb5d75da9e8de9eeaca8",
+        "level_id": "0489696cb4a3b44e0a70d6f7",
+        "state": "invalidated",
+        "time": 1790743500,
+        "reason": "close_below_band",
+        "version": "snr-rbs-close-0.1-research",
+        "spec_hash": "5743c369b58bb898ec84cbaeabd5b38514f59627bf3850189ce927b4ba4d3eae",
+        "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "source_supported": "resistance_break_retest",
+        "research_assumption": "numeric_rules",
+        "bar": {
+          "time": 1790743200,
+          "end": 1790743500,
+          "open": 4182.75,
+          "high": 4184.92,
+          "low": 4180.8,
+          "close": 4180.85,
+          "volume": 797.0
+        },
+        "received_at": 1790743507,
+        "quote_time": 1790743506,
+        "observation_quality": "timely",
+        "execution_mode": "live_signal_only",
+        "result_status": "not_evaluated",
+        "dedup_key": "dba3acef42166009ce74f6e86179f8b25fc190635314f014d11964fff21e1168",
+        "delivery_alert": {
+          "id": "rbs-end-dba3acef42166009ce74f6e86179f8b25fc190635314f014d11964fff21e1168",
+          "time": 1790743500,
+          "tf": "M5",
+          "type": "rbs_buy_closed",
+          "cooldown_key": "rbs_buy_closed:0489696cb4a3b44e0a70d6f7",
+          "symbol": "XAUUSD",
+          "source": "MT5 · XAUUSD",
+          "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+          "level_id": "0489696cb4a3b44e0a70d6f7",
+          "reason": "Свеча M5 закрылась ниже полосы пробитого сопротивления.",
+          "scenario_lifecycle": {
+            "version": 1,
+            "stage": "ended",
+            "valid_until": 1790743500
+          }
+        },
+        "delivery_enabled": true
+      },
+      "delivery": {
+        "id": "rbs-end-dba3acef42166009ce74f6e86179f8b25fc190635314f014d11964fff21e1168",
+        "payload": "{\"id\": \"rbs-end-dba3acef42166009ce74f6e86179f8b25fc190635314f014d11964fff21e1168\", \"time\": 1790743500, \"tf\": \"M5\", \"type\": \"rbs_buy_closed\", \"cooldown_key\": \"rbs_buy_closed:0489696cb4a3b44e0a70d6f7\", \"symbol\": \"XAUUSD\", \"source\": \"MT5 · XAUUSD\", \"source_hash\": \"fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e\", \"level_id\": \"0489696cb4a3b44e0a70d6f7\", \"reason\": \"Свеча M5 закрылась ниже полосы пробитого сопротивления.\", \"scenario_lifecycle\": {\"version\": 1, \"stage\": \"ended\", \"valid_until\": 1790743500}, \"observed_at\": 1790743507}",
+        "status": "sent",
+        "attempts": 1,
+        "sent_at": 1790743510,
+        "telegram_message_id": 63
+      },
+      "scenario": {
+        "id": "rbs-plan-95e7a05f73cd81f8316f936985a506633f03c2f71d0d7d7ca0a28d120e8bae7a",
+        "model": "RBS",
+        "key": "0489696cb4a3b44e0a70d6f7",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "created_at": 1790743200,
+        "plan": {
+          "side": "long",
+          "entry": [
+            4181.31,
+            4182.09
+          ],
+          "stop": 4180.92,
+          "targets": [
+            4182.48,
+            4183.26,
+            4184.04
+          ],
+          "retest": true,
+          "cancel_rule": "закрытие M5 ниже 4181.31",
+          "price_step": 0.01,
+          "target_method": "midpoint_r_1_2_3",
+          "stop_method": "band_edge_plus_atr_buffer",
+          "known_at": 1790743200
+        },
+        "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.",
+        "plan_type": "rbs_buy_plan",
+        "plan_delivery": "sent",
+        "valid_until": null,
+        "stage": "ended",
+        "stage_at": 1790743500,
+        "stage_reason": "Свеча M5 закрылась ниже полосы пробитого сопротивления.",
+        "decision": null,
+        "trade": null,
+        "confirmation": null,
+        "checks": {
+          "fresh": true,
+          "in_zone": false,
+          "spread_ok": false,
+          "spread": 0.3000000000001819,
+          "quote_price": 4200.93,
+          "current": false,
+          "open_risk": 0.0,
+          "unknown_open_risk": 0,
+          "account_equity": 100000.0,
+          "risk_budget_025_pct": 250.0,
+          "remaining_budget": 250.0,
+          "loss_per_lot_at_stop": 117.00000000000728,
+          "max_lots_under_budget": 2.13,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "account_currency": "USD",
+          "ready_to_review_entry": false
+        }
+      },
+      "text_reconstructed_from_saved_payload": "XAUUSD · RBS · план завершён · 30.09.2026 04:45 UTC\nСценарий: RBS-0489696cb4a3\nПочему: Свеча M5 закрылась ниже полосы пробитого сопротивления.\nРанний план больше не действует. Это не закрытие сделки у брокера.",
+      "delay_from_event_seconds": 10,
+      "delay_from_observation_seconds": 3
+    },
+    {
+      "journal": {
+        "id": "584c8dc61c7642f47147b0d4",
+        "level_id": "570b4549718317762c80df1f",
+        "state": "retest_unconfirmed",
+        "time": 1790743500,
+        "reason": "first_retest_failed",
+        "version": "snr-rbs-close-0.1-research",
+        "spec_hash": "5743c369b58bb898ec84cbaeabd5b38514f59627bf3850189ce927b4ba4d3eae",
+        "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "source_supported": "resistance_break_retest",
+        "research_assumption": "numeric_rules",
+        "bar": {
+          "time": 1790743200,
+          "end": 1790743500,
+          "open": 4182.75,
+          "high": 4184.92,
+          "low": 4180.8,
+          "close": 4180.85,
+          "volume": 797.0
+        },
+        "received_at": 1790743507,
+        "quote_time": 1790743506,
+        "observation_quality": "timely",
+        "execution_mode": "live_signal_only",
+        "result_status": "not_evaluated",
+        "dedup_key": "300d45b64f471f07a28a526a26e3eff93f154ff878fc60ba79fc33228e76b7dd",
+        "delivery_alert": {
+          "id": "rbs-end-300d45b64f471f07a28a526a26e3eff93f154ff878fc60ba79fc33228e76b7dd",
+          "time": 1790743500,
+          "tf": "M5",
+          "type": "rbs_buy_closed",
+          "cooldown_key": "rbs_buy_closed:570b4549718317762c80df1f",
+          "symbol": "XAUUSD",
+          "source": "MT5 · XAUUSD",
+          "source_hash": "fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e",
+          "level_id": "570b4549718317762c80df1f",
+          "reason": "Первый ретест не подтвердил сценарий.",
+          "scenario_lifecycle": {
+            "version": 1,
+            "stage": "ended",
+            "valid_until": 1790743500
+          }
+        },
+        "delivery_enabled": true
+      },
+      "delivery": {
+        "id": "rbs-end-300d45b64f471f07a28a526a26e3eff93f154ff878fc60ba79fc33228e76b7dd",
+        "payload": "{\"id\": \"rbs-end-300d45b64f471f07a28a526a26e3eff93f154ff878fc60ba79fc33228e76b7dd\", \"time\": 1790743500, \"tf\": \"M5\", \"type\": \"rbs_buy_closed\", \"cooldown_key\": \"rbs_buy_closed:570b4549718317762c80df1f\", \"symbol\": \"XAUUSD\", \"source\": \"MT5 · XAUUSD\", \"source_hash\": \"fd08f18d064c7fb9cb3ef62c8ac10cfaa61d735ad4d4c72944581b4008bb0a2e\", \"level_id\": \"570b4549718317762c80df1f\", \"reason\": \"Первый ретест не подтвердил сценарий.\", \"scenario_lifecycle\": {\"version\": 1, \"stage\": \"ended\", \"valid_until\": 1790743500}, \"observed_at\": 1790743507}",
+        "status": "sent",
+        "attempts": 1,
+        "sent_at": 1790743510,
+        "telegram_message_id": 64
+      },
+      "scenario": {
+        "id": "rbs-plan-4ced72860fbf79a2a6f7f86f8276bffc15e51bef6de1a6202645c6a1b6c4ee20",
+        "model": "RBS",
+        "key": "570b4549718317762c80df1f",
+        "symbol": "XAUUSD",
+        "source": "MT5 · XAUUSD",
+        "created_at": 1790743200,
+        "plan": {
+          "side": "long",
+          "entry": [
+            4180.29,
+            4181.07
+          ],
+          "stop": 4179.9,
+          "targets": [
+            4181.46,
+            4182.24,
+            4183.02
+          ],
+          "retest": true,
+          "cancel_rule": "закрытие M5 ниже 4180.29",
+          "price_step": 0.01,
+          "target_method": "midpoint_r_1_2_3",
+          "stop_method": "band_edge_plus_atr_buffer",
+          "known_at": 1790743200
+        },
+        "reason": "Закрытая M5 пробила бывшее сопротивление; возврат к полосе ещё не подтверждён.",
+        "plan_type": "rbs_buy_plan",
+        "plan_delivery": "sent",
+        "valid_until": null,
+        "stage": "ended",
+        "stage_at": 1790743500,
+        "stage_reason": "Первый ретест не подтвердил сценарий.",
+        "decision": null,
+        "trade": null,
+        "confirmation": null,
+        "checks": {
+          "fresh": true,
+          "in_zone": false,
+          "spread_ok": false,
+          "spread": 0.3000000000001819,
+          "quote_price": 4200.93,
+          "current": false,
+          "open_risk": 0.0,
+          "unknown_open_risk": 0,
+          "account_equity": 100000.0,
+          "risk_budget_025_pct": 250.0,
+          "remaining_budget": 250.0,
+          "loss_per_lot_at_stop": 117.00000000000728,
+          "max_lots_under_budget": 2.13,
+          "volume_min": 0.01,
+          "volume_step": 0.01,
+          "account_currency": "USD",
+          "ready_to_review_entry": false
+        }
+      },
+      "text_reconstructed_from_saved_payload": "XAUUSD · RBS · план завершён · 30.09.2026 04:45 UTC\nСценарий: RBS-570b45497183\nПочему: Первый ретест не подтвердил сценарий.\nРанний план больше не действует. Это не закрытие сделки у брокера.",
+      "delay_from_event_seconds": 10,
+      "delay_from_observation_seconds": 3
+    }
+  ],
+  "operations": {
+    "bridge": {
+      "alive": true,
+      "state": "running",
+      "reported_state": "running",
+      "label": "Работает",
+      "updated_at": 1790757649,
+      "age_seconds": 8,
+      "error_type": null,
+      "error_code": null,
+      "outage_started_at": null,
+      "last_recovery": {
+        "started_at": 1790743689,
+        "ended_at": 1790757263,
+        "duration_seconds": 13574,
+        "reason": "Нет свежего статуса моста",
+        "last_m1_before": 1790743620,
+        "last_m1_after": 1790757180
+      },
+      "m1_gaps": [
+        {
+          "before": 1790625540,
+          "after": 1790632800,
+          "missing_minutes": 120,
+          "classification": "Причина отсутствия M1 у брокера не установлена"
+        },
+        {
+          "before": 1790711940,
+          "after": 1790719200,
+          "missing_minutes": 120,
+          "classification": "Причина отсутствия M1 у брокера не установлена"
+        }
+      ]
+    },
+    "quote": {
+      "fresh": true,
+      "time": 1790757648,
+      "age_seconds": 9,
+      "label": "Свежая"
+    },
+    "m1": {
+      "fresh": true,
+      "time": 1790757540,
+      "age_seconds": 117,
+      "label": "Свежая закрытая M1"
+    },
+    "telegram": {
+      "enabled": true,
+      "configured": true,
+      "worker_alive": true,
+      "worker_state": "running",
+      "label": "Очередь работает"
+    },
+    "overall": {
+      "label": "Работает",
+      "color": "green"
+    },
+    "ready_for_new_alerts": true,
+    "as_of": 1790757657,
+    "window_hours": 24,
+    "journal": {
+      "total": 1169,
+      "first_event": 1790557500,
+      "last_event": 1790757600,
+      "last_24h": {
+        "local_only": 24,
+        "sent": 5,
+        "suppressed": 125
+      },
+      "all_statuses": {
+        "failed": 19,
+        "local_only": 183,
+        "sent": 49,
+        "suppressed": 918
+      },
+      "unresolved": {},
+      "last_confirmed_send": {
+        "sent_at": 1790743510,
+        "telegram_message_id": 63,
+        "kind": "rbs_buy_closed:0489696cb4a3b44e0a70d6f7"
+      }
+    },
+    "quote_archive": {
+      "total": 6341,
+      "first_time_msc": 1790577950977,
+      "last_time_msc": 1790757648923,
+      "last_received_at": 1790757649,
+      "last_24h": 547,
+      "intervals_over_90s": 11,
+      "max_interval_seconds": 72553.504,
+      "source": "MT5 · выборочные bid/ask",
+      "complete_tick_feed": false
+    },
+    "tick_archive": {
+      "total": 417612,
+      "first_time_msc": 1790577952026,
+      "last_time_msc": 1790757648923,
+      "last_24h": 20990,
+      "pulls": 6369,
+      "non_ok_pulls": 1,
+      "last_pull": {
+        "status": "ok",
+        "observed_at": 1790757649,
+        "start_sec": 1790757638,
+        "end_sec": 1790757649,
+        "returned": 89
+      },
+      "source": "MT5 copy_ticks_range · bid/ask",
+      "complete_tick_feed": false
+    },
+    "fvg_forward": {
+      "status": "collecting",
+      "forward_since": 1790577951,
+      "last_m1": 1790757540,
+      "quote_time": 1790757648,
+      "quote_fresh": true,
+      "new_m1": 2755,
+      "events": {
+        "timely": 11,
+        "late_bar": 5
+      },
+      "timely_near": 1,
+      "timely_confirmed": 0,
+      "paper_closed": 0,
+      "paper_open": 0,
+      "paper_data_gap": 0,
+      "net_pnl": null,
+      "average_r": null,
+      "note": "Условные исходы по MT5 M1 с оценённым ask; это не исполнение брокера и не доказательство преимущества."
+    }
+  },
+  "active_id": null,
+  "receiver_boundary": "Telegram API message_id; original message text and phone viewing not independently read"
+}
